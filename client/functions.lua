@@ -166,7 +166,6 @@ function OpenLaptop()
                     TriggerEvent("utku_wh:sell", count, worth)
                     TaskPlayAnim(ped, "anim@amb@warehouse@laptop@", "exit", 8.0, 8.0, 0.1, 0, 1, false, false, false)
                     ESX.UI.Menu.CloseAll()
-                    --exports['mythic_notify']:SendAlert("error", "Selling has not started yet!")
                 end
             end, function(data2, menu2)
                 menu2.close()
@@ -234,13 +233,8 @@ function GetTotalWorth()
         end
     end
     if count > 3 then
-        --print("count: "..tostring(count))
-        --print("raw: "..tostring(worth))
-        --print("bonus: "..tostring(math.floor((worth * count) / 10)))
-        --print("total: "..tostring(math.floor(worth + ((worth * count) / 10))))
         return math.floor(worth + ((worth * count) / 10)), math.floor((worth * count) / 10), count/2
     else
-        --print("total: "..tostring(worth))
         return worth, 0 , count/2
     end
 end

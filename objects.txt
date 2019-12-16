@@ -1,0 +1,84 @@
+--LOCATIONS--
+Small WH enterance : 67.17, -2569.65, 6.00  Heading : 270.25
+Small WH Locaiton: 1087.43, -3099.27, -39.00 Heading : 270.29
+Laptop Location : 1088.40, -3101.44, -39.00 Heading: 90.20
+
+--Crate Locations--
+Set1: 1088.61, -3096.40, -39.00 | 1088.61, -3096.40, -36.89
+Set2: 1091.38, -3096.40, -39.00 | 1091.38, -3096.40, -36.89
+Set3: 1095.13, -3096.40, -39.00 | 1095.13, -3096.40, -36.89
+Set4: 1097.51, -3096.40, -39.00 | 1097.51, -3096.40, -36.89
+Set5: 1101.31, -3096.40, -39.00 | 1101.31, -3096.40, -36.89
+Set6: 1104.00, -3096.40, -39.00 | 1104.00, -3096.40, -36.89
+
+Small Object Locations [TEST]
+Set2: 1101.62, -3102.95, -39.00 | -38.50 | -37.00
+-------------------------------------------------------------
+
+--OBJECTS--
+--Art Crates--
+ex_prop_crate_art_02_bc (1 painting, 2 statue)[BIG]
+ex_prop_crate_art_02_sc (1 painting, stacked paintings, 1 statue) [SMALL]
+ex_prop_crate_art_bc (3 painting) [BIG]
+ex_prop_crate_art_sc (lots of painting, 2 statue) [SMALL]
+
+--Ammo Crates--
+ex_prop_crate_ammo_bc (rifels, ammo) [BIG]
+ex_prop_crate_ammo_sc (rifels, ammo) [BIG OPEN]
+
+--Other Crates--
+ex_prop_crate_biohazard_bc (big chemicals, closed)
+ex_prop_crate_biohazard_sc (big chemicals, open)
+ex_prop_pharma_bc (pharmacies close)
+ex_prop_pharma_sc (pharmacies open)
+ex_prop_bull_02 (silver crate)
+ex_prop_crate_clothing_bc (luggages)
+ex_prop_crate_clothing_sc (luggages open)
+ex_prop_crate_elec_bc (electronics closed)
+ex_prop_crate_elec_sc (electronics open)
+ex_prop_crate_expl_sc (exlposives)
+ex_prop_crate_furjacket_bc (furs)
+ex_prop_crate_furjacket_sc (furs open)
+ex_prop_crate_gems_bc (gems close)
+ex_prop_crate_gems_sc (gems open)
+ex_prop_crate_narc_sc (drugs)
+ex_prop_crate_tob_bc (tobacoo closed)
+ex_prop_crate_tob_sc (tobacoo open)
+ex_prop_crate_wlife_bc (ivory closed)
+ex_prop_crate_wlife_sc (ivory open)
+
+--Special Crates--
+ex_prop_crate_oegg (egg)
+ex_prop_crate_xldiam (special diamond)
+ex_prop_crate_minig (gold minigun)
+
+--Small Objects--
+ex_office_swag_med1 (medic stuff)
+ex_office_swag_med2 (medic stuff 2)
+ex_office_swag_med3 (medic stuff 3)
+ex_office_swag_med4 (medic stuff 4)
+ex_office_swag_pills2 (small pill stack)
+ex_office_swag_pills3 (big pill stack)
+ex_office_swag_jewelwatch (jewelery)
+ex_office_swag_jewelwatch2 (jewelery)
+ex_office_swag_jewelwatch3 (jewelery)
+ex_office_swag_ivory (single ivory)
+ex_office_swag_ivory2 (a lot ivory)
+ex_office_swag_ivory3 (some ivory)
+ex_office_swag_guns01 (machine gun)
+ex_office_swag_guns02 (ammo boxes)
+ex_office_swag_guns03 (vertical rifles)
+ex_office_swag_guns04 (rifles box)
+ex_office_swag_gem02 (small gem box)
+ex_office_swag_gem03 (big gem box)
+ex_office_swag_booze_cigs (alcohol and cigarettes)
+ex_office_swag_booze_cigs2 (vodka and cigarettes)
+ex_office_swag_booze_cigs3 (big)
+ex_swag_counterfeit1 (cash rulo)
+ex_swag_counterfeit2 (cash stack)
+ex_cash_pile_005 (cash stack big)
+ex_cash_pile_8 (cash pile huge)
+ex_office_swag_drugbag2 (bags of drug)
+ex_office_swag_electronic (tech stuff)
+ex_office_swag_electronic2
+ex_office_swag_electronic3

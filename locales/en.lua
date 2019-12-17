@@ -5,6 +5,7 @@ Locales["en"] = {
     ["success"] = "~g~SUCCESS",
     ["delivered"] = "Delivery completed",
     ["sold"] = "Selling completed",
+    ["died"] = "You died",
     ["locking"] = "Door Locking",
     ["unlocking"] = "Door Unlocking",
     ["locked"] = "Door is locked.",

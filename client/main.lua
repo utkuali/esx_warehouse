@@ -82,6 +82,7 @@ AddEventHandler("utku_wh:start", function(action)
     GetCurrentInfo()
     Citizen.Wait(500)
     Delstart = true
+    Starttimer = true
     exports['mythic_notify']:SendAlert("success", _U("pickup_s"))
     Citizen.Wait(500)
     exports['mythic_notify']:SendAlert("success", _U("15min"))
@@ -92,6 +93,9 @@ AddEventHandler("utku_wh:sell", function(count, amount)
     Timer = Config.selltime
     GetSellInfo(count, amount)
     Sellstart = true
+    Starttimer = true
+    Citizen.Wait(6000)
+    NPCstart = true
     for i = 1, #Warehouse, 1 do -- not working currently I think
         Warehouse[i].empty = true
         Warehouse[i].created = false
@@ -137,7 +141,7 @@ end)
 Citizen.CreateThread(function() -- Timer
     while true do
         Citizen.Wait(1)
-        if Delstart then
+        if Starttimer then
             Citizen.Wait(1000)
             Timer = Timer - 1000
         end
@@ -147,7 +151,7 @@ end)
 Citizen.CreateThread(function() -- Countdown
     while true do
         Citizen.Wait(1)
-        if Delstart then
+        if Starttimer then
             if Timer == 600000 then
                 exports['mythic_notify']:SendAlert("success", _U("10min"))
                 Citizen.Wait(5000)
@@ -169,14 +173,73 @@ Citizen.CreateThread(function() -- Countdown
                 Delstart = false
                 drawmarker = false
                 whstart = false
+                NPCstart = false
+                Sellstart = false
+                Starttimer = false
                 pickup = false
                 RemoveBlip(currentblip)
+                RemoveBlip(Enemyblip)
                 currentblip = nil
                 currentslot = nil
                 Citizen.Wait(200)
                 PlaySoundFrontend(-1, "Bed", "WastedSounds", 0)
                 header = _U("failed")
                 text = _U("timesup")
+                Citizen.Wait(200)
+                draw = true
+                Citizen.Wait(6000)
+                draw = false
+            end
+        end
+    end
+end)
+
+Citizen.CreateThread(function()
+    while true do
+        Citizen.Wait(1)
+        while Sellstart or pickup or whstart or Delstart do
+            Citizen.Wait(1)
+            local ped = PlayerPedId()
+            local currentveh = GetVehiclePedIsUsing(player)
+            local vehname = GetDisplayNameFromVehicleModel(GetEntityModel(currentveh))
+            local needcar = GetDisplayNameFromVehicleModel(GetEntityModel(Missioncar))
+            local enghealth = GetVehicleEngineHealth(Missioncar)
+
+            if IsEntityDead(ped) then
+                Delstart = false
+                drawmarker = false
+                whstart = false
+                pickup = false
+                Sellstart = false
+                NPCstart = false
+                Starttimer = false
+                RemoveBlip(currentblip)
+                RemoveBlip(Enemyblip)
+                currentblip = nil
+                currentslot = nil
+                PlaySoundFrontend(-1, "Bed", "WastedSounds", 0)
+                header = _U("failed")
+                text = _U("died")
+                Citizen.Wait(200)
+                draw = true
+                Citizen.Wait(6000)
+                draw = false
+            end
+            if vehname == needcar and (enghealth <= 150) then
+                Delstart = false
+                drawmarker = false
+                whstart = false
+                pickup = false
+                Sellstart = false
+                NPCstart = false
+                Starttimer = false
+                RemoveBlip(currentblip)
+                RemoveBlip(Enemyblip)
+                currentblip = nil
+                currentslot = nil
+                PlaySoundFrontend(-1, "Bed", "WastedSounds", 0)
+                header = _U("failed")
+                text = _U("died")
                 Citizen.Wait(200)
                 draw = true
                 Citizen.Wait(6000)
@@ -417,8 +480,10 @@ Citizen.CreateThread(function() -- Main action
                     Citizen.Wait(500)
                     drawmarker = false
                     Sellstart = false
+                    NPCstart = false
                     Citizen.Wait(10)
                     RemoveBlip(currentblip)
+                    RemoveBlip(Enemyblip)
                     currentblip = nil
                     PlaySoundFrontend(-1, "PROPERTY_PURCHASE", "HUD_AWARDS", 0)
                     DeleteEntity(playercar)
@@ -440,7 +505,6 @@ Citizen.CreateThread(function() -- Main action
     end
 end)
 
-
 Citizen.CreateThread(function() -- NPC actions // yay it works now!
     while true do
         Citizen.Wait(1)
@@ -459,6 +523,7 @@ Citizen.CreateThread(function() -- NPC actions // yay it works now!
                         SpawnEnemyNPC(Currentloc.x, Currentloc.y, Currentloc.x, player)
                     end
                 end
+                Citizen.Wait(1)
             end
             Citizen.Wait(1)
         end

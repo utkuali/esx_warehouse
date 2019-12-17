@@ -489,7 +489,7 @@ function GetSellInfo(count, amount)
     end
     if count > 4 and count <= 8 then
         Currentspawn = Sell.sp2
-        C_heading = Sell.h1
+        C_heading = Sell.h2
         if rnd4 == 1 then
             Currentpos = Sell.s5
             Currentcar = Sell.car5

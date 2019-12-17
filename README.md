@@ -12,3 +12,6 @@ Code needs a lot of organization and fixing, there are a lot of useless methods 
 
 
 It registers to user steam identifier individually, so this means more than one player can use this simultaneously but in the warehouse which is not realistic and not cool. So if you are adding this to a RP server I highly recommend only make this job available for one person at this point. When I have time I will be making this warehouse based or job-based rather than player based.
+
+
+DO NOT FORGET TO ADD "warehouse_key" TO YOUR DATABASE!

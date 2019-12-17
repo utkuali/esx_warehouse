@@ -15,3 +15,6 @@ It registers to user steam identifier individually, so this means more than one 
 
 
 DO NOT FORGET TO ADD "warehouse_key" TO YOUR DATABASE!
+
+
+Using of issues are appreciated.

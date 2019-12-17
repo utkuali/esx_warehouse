@@ -13,6 +13,5 @@ client_scripts {
     "config.lua",
     "locales/en.lua",
     "client/main.lua",
-    "client/functions.lua",
-    "client/locationpicker.lua"
+    "client/functions.lua"
 }

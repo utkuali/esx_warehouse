@@ -19,6 +19,8 @@ local sellcount = nil
 local reward = 0
 local markerloc = nil
 local amount = 0
+local firstspawned = false
+local spawnsecond = false
 Delstart = false
 Sellstart = false
 Missioncar = nil
@@ -105,8 +107,8 @@ AddEventHandler("utku_wh:sell", function(count, amount)
     for i = 1, #Warehouse, 1 do
         Warehouse[i].empty = true
         Warehouse[i].created = false
+        TriggerServerEvent("utku_wh:updateWH", Warehouse)
     end
-    TriggerServerEvent("utku_wh:updateWH", Warehouse)
 end)
 
 RegisterNetEvent("utku_wh:itemEkle")
@@ -454,16 +456,161 @@ Citizen.CreateThread(function() -- pick up and deliver
     end
 end)
 
---[[
-Citizen.CreateThread(function() -- NPC actions
+
+Citizen.CreateThread(function() -- NPC actions // I bet it won't work
     while true do
         Citizen.Wait(1)
-        if Sellstart then
+        if Config.enablenpc then
+            while Sellstart and not firstspawned do
+                local player = PlayerPedId()
+                local playerloc = GetEntityCoords(player)
+                local finishline = currentpos
+                local distance = GetDistanceBetweenCoords(playerloc, finishline, false)
 
+                if distance >= 500 then
+                    print("Thread distance >= 500")
+                    Citizen.Wait(10000) -- min
+                    Currentloc = GetEntityCoords(player)
+                    SpawnEnemy1(Currentloc.x, Currentloc.y, Currentloc.x, player)
+                    print("Thread distance >= 500 done")
+                end
+                if DoesEntityExist(Driver) then
+                    firstspawned = true
+                    if IsEntityDead(Driver) then
+                        spawnsecond = true
+                    end
+                end
+            end
+            Citizen.Wait(1)
         end
     end
 end)
-]]
+
+Citizen.CreateThread(function()
+    while true do
+        Citizen.Wait(1)
+        if Config.enablenpc then
+            while Sellstart and spawnsecond do
+                local player = PlayerPedId()
+                local playerloc = GetEntityCoords(player)
+                local finishline = currentpos
+                local distance = GetDistanceBetweenCoords(playerloc, finishline, false)
+
+                if distance >= 500  then
+                    print("Thread distance >= 500 *2*")
+                    Citizen.Wait(10000) -- min
+                    Currentloc = GetEntityCoords(player)
+                    SpawnEnemy2(Currentloc.x, Currentloc.y, Currentloc.x, player)
+                end
+                if DoesEntityExist(Driver2) then
+                    spawnsecond = false
+                end
+            end
+            Citizen.Wait(1)
+        end
+    end
+end)
+
+function SpawnEnemy1(x, y, z, target)
+    print("SpawnEnemy triggerd: "..x.." ,"..y.." ,"..z)
+    local done, location, heading = GetClosestVehicleNodeWithHeading(x + math.random(-100, 100), y + math.random(-100, 100), z, 1, 3, 0)
+    RequestModel(0x964D12DC)
+    RequestModel(0x132D5A1A)
+    Citizen.Wait(5000)
+    print("done: "..tostring(done).." location: "..tostring(location).." h: "..tostring(heading))
+    if done and HasModelLoaded(0x964D12DC) and HasModelLoaded(0x132D5A1A) then
+        print("SpawnEnemy if check")
+        Enemyveh = CreateVehicle(0x132D5A1A, location, heading, true, false)
+
+        ClearAreaOfVehicles(GetEntityCoords(Enemyveh), 200, false, false, false, false, false);
+        SetVehicleOnGroundProperly(Enemyveh)
+        Driver = CreatePedInsideVehicle(Enemyveh, 12, GetHashKey("g_m_y_mexgoon_03"), -1, true, false)
+        --Passenger = CreatePedInsideVehicle(Enemyveh, 12, GetHashKey("g_m_y_mexgoon_03"), 0, true, false)
+        Enemyblip = AddBlipForEntity(Driver)
+        GiveWeaponToPed(Driver, "WEAPON_MICROSMG", 400, false, true)
+        --GiveWeaponToPed(Passenger, "WEAPON_MICROSMG", 400, false, true)
+
+        SetPedCombatAttributes(Driver, 5, true)	    --SetPedCombatAttributes(Passenger, 5, true)
+		SetPedCombatAttributes(Driver, 16, true)    --SetPedCombatAttributes(Passenger, 16, true)
+		SetPedCombatAttributes(Driver, 46, true)    --SetPedCombatAttributes(Passenger, 46, true)
+		SetPedCombatAttributes(Driver, 26, true)    --SetPedCombatAttributes(Passenger, 26, true)
+		SetPedCombatAttributes(Driver, 2, true)     --SetPedCombatAttributes(Passenger, 2, true)
+        SetPedCombatAttributes(Driver, 1, true)     --SetPedCombatAttributes(Passenger, 1, true)
+        SetPedFleeAttributes(Driver, 0, 0)          --SetPedFleeAttributes(Passenger, 0, 0)
+        SetPedPathAvoidFire(Driver, 1)              --SetPedPathAvoidFire(Passenger, 1)
+        SetPedAlertness(Driver,3)                   --SetPedAlertness(Passenger,3)
+        SetPedFiringPattern(Driver, 0xC6EE6B4C)     --SetPedFiringPattern(Passenger, 0xC6EE6B4C)
+        SetPedArmour(Driver, 100)                   --SetPedArmour(Passenger, 100)
+        TaskCombatPed(Driver, target, 0, 16)
+        TaskVehicleChase(Driver, target)
+        --SetPedAsEnemy(Driver, true)                 SetPedAsEnemy(Passenger, true)
+        SetPedDropsWeaponsWhenDead(Driver, false)   --SetPedDropsWeaponsWhenDead(Passenger, false)
+
+        SetBlipAsFriendly(Enemyblip, false)
+        SetBlipFlashes(Enemyblip, true)
+        SetBlipSprite(Enemyblip, 270)
+        SetBlipColour(Enemyblip, 1)
+        print("SpawnEnemy if check done")
+    end
+end
+
+function SpawnEnemy2(x, y, z, target)
+    print("SpawnEnemy triggerd: "..x.." ,"..y.." ,"..z)
+    local done, location, heading = GetClosestVehicleNodeWithHeading(x + math.random(-100, 100), y + math.random(-100, 100), z, 1, 3, 0)
+    RequestModel(0x964D12DC)
+    RequestModel(0x132D5A1A)
+    Citizen.Wait(5000)
+    print("done: "..tostring(done).." location: "..tostring(location).." h: "..tostring(heading))
+    if done and HasModelLoaded(0x964D12DC) and HasModelLoaded(0x132D5A1A) then
+        print("SpawnEnemy if check")
+        Enemyveh2 = CreateVehicle(0x132D5A1A, location, heading, true, false)
+
+        ClearAreaOfVehicles(GetEntityCoords(Enemyveh2), 200, false, false, false, false, false);
+        SetVehicleOnGroundProperly(Enemyveh2)
+        Driver2 = CreatePedInsideVehicle(Enemyveh2, 12, GetHashKey("g_m_y_mexgoon_03"), -1, true, false)
+        --Passenger = CreatePedInsideVehicle(Enemyveh, 12, GetHashKey("g_m_y_mexgoon_03"), 0, true, false)
+        Enemyblip2 = AddBlipForEntity(Driver2)
+        GiveWeaponToPed(Driver2, "WEAPON_MICROSMG", 400, false, true)
+        --GiveWeaponToPed(Passenger, "WEAPON_MICROSMG", 400, false, true)
+
+        SetPedCombatAttributes(Driver2, 5, true)	    --SetPedCombatAttributes(Passenger, 5, true)
+		SetPedCombatAttributes(Driver2, 16, true)    --SetPedCombatAttributes(Passenger, 16, true)
+		SetPedCombatAttributes(Driver2, 46, true)    --SetPedCombatAttributes(Passenger, 46, true)
+		SetPedCombatAttributes(Driver2, 26, true)    --SetPedCombatAttributes(Passenger, 26, true)
+		SetPedCombatAttributes(Driver2, 2, true)     --SetPedCombatAttributes(Passenger, 2, true)
+        SetPedCombatAttributes(Driver2, 1, true)     --SetPedCombatAttributes(Passenger, 1, true)
+        SetPedFleeAttributes(Driver2, 0, 0)          --SetPedFleeAttributes(Passenger, 0, 0)
+        SetPedPathAvoidFire(Driver2, 1)              --SetPedPathAvoidFire(Passenger, 1)
+        SetPedAlertness(Driver2,3)                   --SetPedAlertness(Passenger,3)
+        SetPedFiringPattern(Driver2, 0xC6EE6B4C)     --SetPedFiringPattern(Passenger, 0xC6EE6B4C)
+        SetPedArmour(Driver2, 100)                   --SetPedArmour(Passenger, 100)
+        TaskCombatPed(Driver2, target, 0, 16)
+        TaskVehicleChase(Driver2, target)
+        --SetPedAsEnemy(Driver, true)                 SetPedAsEnemy(Passenger, true)
+        SetPedDropsWeaponsWhenDead(Driver2, false)   --SetPedDropsWeaponsWhenDead(Passenger, false)
+
+        SetBlipAsFriendly(Enemyblip2, false)
+        SetBlipFlashes(Enemyblip2, true)
+        SetBlipSprite(Enemyblip2, 270)
+        SetBlipColour(Enemyblip2, 1)
+        print("SpawnEnemy if check done")
+    end
+end
+
+Citizen.CreateThread(function()
+    while true do
+        Citizen.Wait(1)
+        if Sellstart then
+            if IsEntityDead(Driver) then
+                RemoveBlip(Enemyblip)
+            end
+            if IsEntityDead(Driver2) then
+                RemoveBlip(Enemyblip2)
+            end
+        end
+    end
+end)
+
 Citizen.CreateThread(function()
     while true do
         Citizen.Wait(1)
@@ -589,7 +736,7 @@ function GetCurrentInfo()
 
     if random == 1 then
         currentpos     = Locations.c1
-        currentheading = Locations.h1dw
+        currentheading = Locations.h1
     end
     if random == 2 then
         currentpos     = Locations.c2

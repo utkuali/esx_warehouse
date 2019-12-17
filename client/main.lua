@@ -104,7 +104,7 @@ AddEventHandler("utku_wh:sell", function(count, amount)
     Timer = Config.selltime
     GetSellInfo(count, amount)
     Sellstart = true
-    for i = 1, #Warehouse, 1 do
+    for i = 1, #Warehouse, 1 do -- not working currently I think
         Warehouse[i].empty = true
         Warehouse[i].created = false
         TriggerServerEvent("utku_wh:updateWH", Warehouse)

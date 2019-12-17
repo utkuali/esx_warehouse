@@ -1,5 +1,5 @@
 Locations = {
-    c1   = vector3(-252.72 , 6347.42 , 31.45 ), h1  = 223.87,     -- Paletobay Care Center
+    c1   = vector3(-252.72 , 6347.42 , 31.45 ), h1  = 229.67,     -- Paletobay Care Center
     c2   = vector3(3596.74 , 3661.80 , 32.85 ), h2  = 75.36 ,     -- Humane Lab Garage 1
     c3   = vector3(324.64  , -1474.52, 29.66 ), h3  = 232.44,     -- Center Hospital
     c3_2 = vector3(3597.74 , 3669.79 , 33.0  ), --same heading    -- Humane Lab Garage 2
@@ -15,7 +15,7 @@ Locations = {
     c13  = vector3(3333.35 , 5159.93 , 17.60 ), h13 = 154.27,     -- Lighthouse
     c14  = vector3(2702.14 , 3453.09 , 55.73 ), h14 = 149.64,     -- You Tool
     c15  = vector3(-3051.47, 596.57  , 6.50  ), h15 = 287.22,     -- Ineseno Rd, supermarket
-    c16  = vector3(-866.31 , -1123.15, 7.10  ), h16 = 118.30,     -- Liquor Hole
+    c16  = vector3(-866.31 , -1123.15, 7.20  ), h16 = 118.30,     -- Liquor Hole
     c17  = vector3(1995.38 , 3035.81 , 47.03 ), h17 = 148.03,     -- Yellow Jack Inn
     c18  = vector3(1244.2  , -3289.29, 5.0   ), h18 = 272.84,     -- Some warehose at the port
     c19  = vector3(1259.60 , -2568.98, 42.0  ), h19 = 292.40,     -- El Burro Heights ruined warehouse
@@ -32,9 +32,9 @@ Locations = {
     c30  = vector3(1947.86 , 3823.04 , 32.06 ), h30 = 28.05 ,     -- Sandy Shores Liquor store
     c31  = vector3(1063.07 , 2656.37 , 39.55 ), h31 = 2.39  ,     -- Route 68 old cafe
     c32  = vector3(584.01  , 2788.04 , 42.19 ), h32 = 359.81,     -- Dollar Pills back
-    c33  = vector3(185.26  , 2775.94 , 45.66 ), h33 = 282.55,     -- Some place in Harmony
-    c34  = vector3(-53.31  , 1949.29 , 190.19), h34 = 32.89 ,     -- Great Chaparral Settlement
-    c35  = vector3(-1822.21, 807.29  , 138.81), h35 = 303.20,     -- Limited LTD Gas Station
+    c33  = vector3(185.26  , 2775.94 , 45.80 ), h33 = 282.55,     -- Some place in Harmony
+    c34  = vector3(-53.31  , 1949.29 , 190.0), h34 = 32.89 ,     -- Great Chaparral Settlement
+    c35  = vector3(-1821.21, 809.29  , 138.81), h35 = 303.20,     -- Limited LTD Gas Station
 }
 
 Cars = {

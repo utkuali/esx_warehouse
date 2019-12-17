@@ -14,7 +14,7 @@ function CheckStatus(item)
     end
 end
 
-function OpenLaptop()
+function OpenLaptop() -- Laptop Menu
     local ped = PlayerPedId()
 
     ESX.UI.Menu.CloseAll()
@@ -175,6 +175,45 @@ function OpenLaptop()
         menu.close()
         TaskPlayAnim(ped, "anim@amb@warehouse@laptop@", "exit", 8.0, 8.0, 0.1, 0, 1, false, false, false)
     end)
+end
+
+function SpawnEnemyNPC(x, y, z, target) -- Seems to work just fine // problem is when I add a passenger, they attack eachother too, I think I need to make a relationship thing here
+    local done, location, heading = GetClosestVehicleNodeWithHeading(x + math.random(-100, 100), y + math.random(-100, 100), z, 1, 3, 0)
+
+    RequestModel(0x964D12DC)
+    RequestModel(0x132D5A1A)
+    Citizen.Wait(5000)
+    if done and HasModelLoaded(0x964D12DC) and HasModelLoaded(0x132D5A1A) then
+        print("SpawnEnemy if check")
+        Enemyveh = CreateVehicle(0x132D5A1A, location, heading, true, false)
+
+        ClearAreaOfVehicles(GetEntityCoords(Enemyveh), 200, false, false, false, false, false);
+        SetVehicleOnGroundProperly(Enemyveh)
+        Driver = CreatePedInsideVehicle(Enemyveh, 12, GetHashKey("g_m_y_mexgoon_03"), -1, true, false)
+        --Passenger = CreatePedInsideVehicle(Enemyveh, 12, GetHashKey("g_m_y_mexgoon_03"), 0, true, false)
+        Enemyblip = AddBlipForEntity(Driver)
+        SetBlipAsFriendly(Enemyblip, false)
+        SetBlipFlashes(Enemyblip, true)
+        SetBlipSprite(Enemyblip, 270)
+        SetBlipColour(Enemyblip, 1)
+
+        GiveWeaponToPed(Driver, "WEAPON_MICROSMG", 400, false, true)    --GiveWeaponToPed(Passenger, "WEAPON_MICROSMG", 400, false, true)
+        SetPedCombatAttributes(Driver, 5, true)	                        --SetPedCombatAttributes(Passenger, 5, true)
+		SetPedCombatAttributes(Driver, 16, true)                        --SetPedCombatAttributes(Passenger, 16, true)
+		SetPedCombatAttributes(Driver, 46, true)                        --SetPedCombatAttributes(Passenger, 46, true)
+		SetPedCombatAttributes(Driver, 26, true)                        --SetPedCombatAttributes(Passenger, 26, true)
+		SetPedCombatAttributes(Driver, 2, true)                         --SetPedCombatAttributes(Passenger, 2, true)
+        SetPedCombatAttributes(Driver, 1, true)                         --SetPedCombatAttributes(Passenger, 1, true)
+        SetPedFleeAttributes(Driver, 0, 0)                              --SetPedFleeAttributes(Passenger, 0, 0)
+        SetPedPathAvoidFire(Driver, 1)                                  --SetPedPathAvoidFire(Passenger, 1)
+        SetPedAlertness(Driver,3)                                       --SetPedAlertness(Passenger,3)
+        SetPedFiringPattern(Driver, 0xC6EE6B4C)                         --SetPedFiringPattern(Passenger, 0xC6EE6B4C)
+        SetPedArmour(Driver, 100)                                       --SetPedArmour(Passenger, 100)
+        TaskCombatPed(Driver, target, 0, 16)
+        TaskVehicleChase(Driver, target)
+        --SetPedAsEnemy(Driver, true)                                     --SetPedAsEnemy(Passenger, true)
+        SetPedDropsWeaponsWhenDead(Driver, false)                       --SetPedDropsWeaponsWhenDead(Passenger, false)
+    end
 end
 
 function GetTotalWorth()
@@ -430,10 +469,10 @@ end
 
 function GetSellInfo(count, amount)
     local rnd4 = math.random(1,4)
-    reward = amount
+    Reward = amount
     if count <= 4 then
-        currentspawn = Sell.sp1
-        c_heading = Sell.h1
+        Currentspawn = Sell.sp1
+        C_heading = Sell.h1
         if rnd4 == 1 then
             Currentpos = Sell.s1
             Currentcar = Sell.car1
@@ -449,8 +488,8 @@ function GetSellInfo(count, amount)
         end
     end
     if count > 4 and count <= 8 then
-        currentspawn = Sell.sp2
-        c_heading = Sell.h1
+        Currentspawn = Sell.sp2
+        C_heading = Sell.h1
         if rnd4 == 1 then
             Currentpos = Sell.s5
             Currentcar = Sell.car5
@@ -466,8 +505,8 @@ function GetSellInfo(count, amount)
         end
     end
     if count > 8 and count <= 12 then
-        currentspawn = Sell.sp2
-        c_heading = Sell.h2
+        Currentspawn = Sell.sp2
+        C_heading = Sell.h2
         if rnd4 == 1 then
             Currentpos = Sell.s9
             Currentcar = Sell.car9
@@ -484,7 +523,7 @@ function GetSellInfo(count, amount)
     end
 end
 
-function DrawText3D(x, y, z, text, scale)
+function DrawText3D(x, y, z, text, scale) -- I know I stole it :D mwhwhahaha
 	local onScreen, _x, _y = World3dToScreen2d(x, y, z)
     local pX, pY, pZ = table.unpack(GetGameplayCamCoords())
 

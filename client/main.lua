@@ -2,30 +2,22 @@ ESX = nil
 PlayerData = {}
 local whstart = false
 local currentslot = nil
-local currentpos = nil
-local currentheading = nil
 local currentblip = nil
 local pickup = false
 local drawmarker = false
 local locked = true
 local shouldlock = false
-local currentcar = nil
-local currentspawn = nil
 local c_heading = nil
 local draw = false
 local header = nil
 local text = nil
-local sellcount = nil
-local reward = 0
+local Reward = 0
 local markerloc = nil
-local amount = 0
-local firstspawned = false
-local spawnsecond = false
+local NPCstart = false
 Delstart = false
 Sellstart = false
 Missioncar = nil
 Obj = nil
-
 
 Citizen.CreateThread(function()
 	while ESX == nil do
@@ -67,25 +59,21 @@ AddEventHandler("utku_wh:upVar", function(var, status)
 end)
 
 Warehouse = {
-    {slot = "s1_1", empty = true, obj = "ex_prop_crate_pharma_sc",    x = 1088.61, y = -3096.40, z = -40.0,  created = false},
+    {slot = "s1_1", empty = true, obj = "ex_prop_crate_pharma_sc"   , x = 1088.61, y = -3096.40, z = -40.0 , created = false},
     {slot = "s1_2", empty = true, obj = "ex_prop_crate_biohazard_sc", x = 1088.61, y = -3096.40, z = -37.82, created = false},
-    {slot = "s2_1", empty = true, obj = "ex_prop_crate_gems_sc",      x = 1091.38, y = -3096.40, z = -40.0,  created = false},
-    {slot = "s2_2", empty = true, obj = "ex_prop_crate_elec_sc",      x = 1091.38, y = -3096.40, z = -37.82, created = false},
-    {slot = "s3_1", empty = true, obj = "ex_prop_crate_narc_sc",      x = 1095.13, y = -3096.40, z = -40.0,  created = false},
-    {slot = "s3_2", empty = true, obj = "ex_prop_crate_tob_sc",       x = 1095.13, y = -3096.40, z = -37.82, created = false},
-    {slot = "s4_1", empty = true, obj = "ex_prop_crate_wlife_sc",     x = 1097.51, y = -3096.40, z = -40.0,  created = false},
-    {slot = "s4_2", empty = true, obj = "ex_prop_crate_ammo_sc",      x = 1097.51, y = -3096.40, z = -37.82, created = false},
-    {slot = "s5_1", empty = true, obj = "ex_prop_crate_art_02_sc",    x = 1101.31, y = -3096.40, z = -40.0,  created = false},
-    {slot = "s5_2", empty = true, obj = "ex_prop_crate_art_bc",       x = 1101.31, y = -3096.40, z = -37.82, created = false},
-    {slot = "s6_1", empty = true, obj = "ex_prop_crate_art_sc",       x = 1104.00, y = -3096.40, z = -40.0,  created = false},
-    {slot = "s6_2", empty = true, obj = "ex_prop_crate_art_02_bc",    x = 1104.00, y = -3096.40, z = -37.82, created = false},
+    {slot = "s2_1", empty = true, obj = "ex_prop_crate_gems_sc"     , x = 1091.38, y = -3096.40, z = -40.0 , created = false},
+    {slot = "s2_2", empty = true, obj = "ex_prop_crate_elec_sc"     , x = 1091.38, y = -3096.40, z = -37.82, created = false},
+    {slot = "s3_1", empty = true, obj = "ex_prop_crate_narc_sc"     , x = 1095.13, y = -3096.40, z = -40.0 , created = false},
+    {slot = "s3_2", empty = true, obj = "ex_prop_crate_tob_sc"      , x = 1095.13, y = -3096.40, z = -37.82, created = false},
+    {slot = "s4_1", empty = true, obj = "ex_prop_crate_wlife_sc"    , x = 1097.51, y = -3096.40, z = -40.0 , created = false},
+    {slot = "s4_2", empty = true, obj = "ex_prop_crate_ammo_sc"     , x = 1097.51, y = -3096.40, z = -37.82, created = false},
+    {slot = "s5_1", empty = true, obj = "ex_prop_crate_art_02_sc"   , x = 1101.31, y = -3096.40, z = -40.0 , created = false},
+    {slot = "s5_2", empty = true, obj = "ex_prop_crate_art_bc"      , x = 1101.31, y = -3096.40, z = -37.82, created = false},
+    {slot = "s6_1", empty = true, obj = "ex_prop_crate_art_sc"      , x = 1104.00, y = -3096.40, z = -40.0 , created = false},
+    {slot = "s6_2", empty = true, obj = "ex_prop_crate_art_02_bc"   , x = 1104.00, y = -3096.40, z = -37.82, created = false}
 }
 
 ------------------------------------------------
-
---RegisterCommand("selltest", function()
-    --TriggerServerEvent("utku_wh:sellGoods", reward)
---end)
 
 RegisterNetEvent("utku_wh:start")
 AddEventHandler("utku_wh:start", function(action)
@@ -146,7 +134,7 @@ Citizen.CreateThread(function() -- update object
     end
 end)
 
-Citizen.CreateThread(function() -- Countdown
+Citizen.CreateThread(function() -- Timer
     while true do
         Citizen.Wait(1)
         if Delstart then
@@ -156,7 +144,7 @@ Citizen.CreateThread(function() -- Countdown
     end
 end)
 
-Citizen.CreateThread(function()
+Citizen.CreateThread(function() -- Countdown
     while true do
         Citizen.Wait(1)
         if Delstart then
@@ -230,7 +218,7 @@ end)
     end
 end)]]
 
-Citizen.CreateThread(function()
+Citizen.CreateThread(function() -- Scaleform Wasted (IllusiveTea <3)
     while true do
         local scaleform = RequestScaleformMovie("mp_big_message_freemode")
 
@@ -251,13 +239,13 @@ Citizen.CreateThread(function()
     end
 end)
 
-Citizen.CreateThread(function() -- blip create(pickup)
+Citizen.CreateThread(function() -- Blips
     while true do
         Citizen.Wait(1)
         if Delstart then
             if not DoesBlipExist(currentblip) then
                 Citizen.Wait(50)
-                currentblip = AddBlipForCoord(currentpos)
+                currentblip = AddBlipForCoord(Currentpos)
                 SetBlipSprite(currentblip, 478)
 				SetBlipColour(currentblip, 1)
 				BeginTextCommandSetBlipName("STRING")
@@ -267,20 +255,15 @@ Citizen.CreateThread(function() -- blip create(pickup)
 				SetBlipAsMissionCreatorBlip(currentblip,true)
                 SetBlipRoute(currentblip, 1)
                 Citizen.Wait(500)
-                RequestModel(GetHashKey(currentcar))
-                while not HasModelLoaded(GetHashKey(currentcar)) do
+                RequestModel(GetHashKey(Currentcar))
+                while not HasModelLoaded(GetHashKey(Currentcar)) do
                     Citizen.Wait(1)
                 end
-                Missioncar = CreateVehicle(GetHashKey(currentcar), currentpos, false, true)
+                Missioncar = CreateVehicle(GetHashKey(Currentcar), Currentpos, false, true)
 
-                SetEntityHeading(Missioncar, currentheading)
+                SetEntityHeading(Missioncar, Currentheading)
                 SetVehicleOnGroundProperly(Missioncar)
-                SetModelAsNoLongerNeeded(GetHashKey(currentcar))
-                    --[[
-                    Hash = 1875981008
-                    Obj = CreateObject(Hash, currentpos, false, false)
-                    FreezeEntityPosition(Obj, true)
-                    SetEntityCollision(Obj, false, true)]]
+                SetModelAsNoLongerNeeded(GetHashKey(Currentcar))
                 pickup = true
             else
                 Citizen.Wait(1)
@@ -309,7 +292,7 @@ Citizen.CreateThread(function() -- blip create(pickup)
                 local ped = PlayerPedId()
 
                 Citizen.Wait(50)
-                currentblip = AddBlipForCoord(currentpos)
+                currentblip = AddBlipForCoord(Currentpos)
                 SetBlipSprite(currentblip, 479)
 			    SetBlipColour(currentblip, 5)
 			    BeginTextCommandSetBlipName("STRING")
@@ -319,21 +302,21 @@ Citizen.CreateThread(function() -- blip create(pickup)
 			    SetBlipAsMissionCreatorBlip(currentblip, true)
                 SetBlipRoute(currentblip, 1)
 
-                RequestModel(GetHashKey(currentcar))
-                while not HasModelLoaded(GetHashKey(currentcar)) do
+                RequestModel(GetHashKey(Currentcar))
+                while not HasModelLoaded(GetHashKey(Currentcar)) do
                     Citizen.Wait(1)
                 end
-                Missioncar = CreateVehicle(GetHashKey(currentcar), currentspawn, false, true)
+                Missioncar = CreateVehicle(GetHashKey(Currentcar), Currentspawn, false, true)
 
                 SetEntityHeading(Missioncar, c_heading)
                 SetVehicleOnGroundProperly(Missioncar)
-                SetModelAsNoLongerNeeded(GetHashKey(currentcar))
+                SetModelAsNoLongerNeeded(GetHashKey(Currentcar))
                 DoScreenFadeOut(500)
                 Citizen.Wait(500)
                 SetPedIntoVehicle(ped, Missioncar, -1)
                 Citizen.Wait(1000)
                 DoScreenFadeIn(500)
-                markerloc = currentpos
+                markerloc = Currentpos
                 drawmarker = true
             else
                 Citizen.Wait(1)
@@ -342,7 +325,7 @@ Citizen.CreateThread(function() -- blip create(pickup)
     end
 end)
 
-Citizen.CreateThread(function() -- marker
+Citizen.CreateThread(function() -- Markers
     while true do
         Citizen.Wait(1)
         if drawmarker then
@@ -356,12 +339,12 @@ Citizen.CreateThread(function() -- marker
     end
 end)
 
-Citizen.CreateThread(function() -- pick up and deliver
+Citizen.CreateThread(function() -- Main action
     while true do
         Citizen.Wait(1)
         if pickup then
             local player = PlayerPedId()
-            local dst = GetDistanceBetweenCoords(GetEntityCoords(player), currentpos, true)
+            local dst = GetDistanceBetweenCoords(GetEntityCoords(player), Currentpos, true)
             local ped = GetPlayerPed(-1)
 
             if dst <= 2.0 then
@@ -391,6 +374,7 @@ Citizen.CreateThread(function() -- pick up and deliver
                 local currentveh = GetVehiclePedIsUsing(player)
                 local vehname = GetDisplayNameFromVehicleModel(GetEntityModel(currentveh))
                 local needcar = GetDisplayNameFromVehicleModel(GetEntityModel(Missioncar))
+
                 if vehname == needcar and vehicle then
                     BringVehicleToHalt(currentveh, 3.5, 1, false)
                     Citizen.Wait(10)
@@ -426,7 +410,7 @@ Citizen.CreateThread(function() -- pick up and deliver
             local needcar = GetDisplayNameFromVehicleModel(GetEntityModel(Missioncar))
 
             if vehname == needcar then
-                if (GetDistanceBetweenCoords(GetEntityCoords(player), currentpos, true) <= 2.5) then
+                if (GetDistanceBetweenCoords(GetEntityCoords(player), Currentpos, true) <= 2.5) then
                     BringVehicleToHalt(playercar, 3.5, 1, false)
                     Citizen.Wait(10)
                     DoScreenFadeOut(500)
@@ -441,7 +425,7 @@ Citizen.CreateThread(function() -- pick up and deliver
                     Citizen.Wait(1000)
                     DoScreenFadeIn(1000)
                     --exports['mythic_notify']:SendAlert("success", _U("delivered"))
-                    TriggerServerEvent("utku_wh:sellGoods", reward)
+                    TriggerServerEvent("utku_wh:sellGoods", Reward)
                     header = _U("success")
                     text = _U("sold")
                     Citizen.Wait(200)
@@ -457,27 +441,22 @@ Citizen.CreateThread(function() -- pick up and deliver
 end)
 
 
-Citizen.CreateThread(function() -- NPC actions // I bet it won't work
+Citizen.CreateThread(function() -- NPC actions // yay it works now!
     while true do
         Citizen.Wait(1)
         if Config.enablenpc then
-            while Sellstart and not firstspawned do
+            while NPCstart do
                 local player = PlayerPedId()
                 local playerloc = GetEntityCoords(player)
-                local finishline = currentpos
+                local finishline = Currentpos
                 local distance = GetDistanceBetweenCoords(playerloc, finishline, false)
 
                 if distance >= 500 then
-                    print("Thread distance >= 500")
-                    Citizen.Wait(10000) -- min
-                    Currentloc = GetEntityCoords(player)
-                    SpawnEnemy1(Currentloc.x, Currentloc.y, Currentloc.x, player)
-                    print("Thread distance >= 500 done")
-                end
-                if DoesEntityExist(Driver) then
-                    firstspawned = true
-                    if IsEntityDead(Driver) then
-                        spawnsecond = true
+                    Citizen.Wait(2000)
+                    if not DoesEntityExist(Driver) or IsEntityDead(Driver) then
+                        Citizen.Wait(10000)
+                        Currentloc = GetEntityCoords(player)
+                        SpawnEnemyNPC(Currentloc.x, Currentloc.y, Currentloc.x, player)
                     end
                 end
             end
@@ -489,134 +468,21 @@ end)
 Citizen.CreateThread(function()
     while true do
         Citizen.Wait(1)
-        if Config.enablenpc then
-            while Sellstart and spawnsecond do
-                local player = PlayerPedId()
-                local playerloc = GetEntityCoords(player)
-                local finishline = currentpos
-                local distance = GetDistanceBetweenCoords(playerloc, finishline, false)
-
-                if distance >= 500  then
-                    print("Thread distance >= 500 *2*")
-                    Citizen.Wait(10000) -- min
-                    Currentloc = GetEntityCoords(player)
-                    SpawnEnemy2(Currentloc.x, Currentloc.y, Currentloc.x, player)
-                end
-                if DoesEntityExist(Driver2) then
-                    spawnsecond = false
-                end
-            end
-            Citizen.Wait(1)
-        end
-    end
-end)
-
-function SpawnEnemy1(x, y, z, target)
-    print("SpawnEnemy triggerd: "..x.." ,"..y.." ,"..z)
-    local done, location, heading = GetClosestVehicleNodeWithHeading(x + math.random(-100, 100), y + math.random(-100, 100), z, 1, 3, 0)
-    RequestModel(0x964D12DC)
-    RequestModel(0x132D5A1A)
-    Citizen.Wait(5000)
-    print("done: "..tostring(done).." location: "..tostring(location).." h: "..tostring(heading))
-    if done and HasModelLoaded(0x964D12DC) and HasModelLoaded(0x132D5A1A) then
-        print("SpawnEnemy if check")
-        Enemyveh = CreateVehicle(0x132D5A1A, location, heading, true, false)
-
-        ClearAreaOfVehicles(GetEntityCoords(Enemyveh), 200, false, false, false, false, false);
-        SetVehicleOnGroundProperly(Enemyveh)
-        Driver = CreatePedInsideVehicle(Enemyveh, 12, GetHashKey("g_m_y_mexgoon_03"), -1, true, false)
-        --Passenger = CreatePedInsideVehicle(Enemyveh, 12, GetHashKey("g_m_y_mexgoon_03"), 0, true, false)
-        Enemyblip = AddBlipForEntity(Driver)
-        GiveWeaponToPed(Driver, "WEAPON_MICROSMG", 400, false, true)
-        --GiveWeaponToPed(Passenger, "WEAPON_MICROSMG", 400, false, true)
-
-        SetPedCombatAttributes(Driver, 5, true)	    --SetPedCombatAttributes(Passenger, 5, true)
-		SetPedCombatAttributes(Driver, 16, true)    --SetPedCombatAttributes(Passenger, 16, true)
-		SetPedCombatAttributes(Driver, 46, true)    --SetPedCombatAttributes(Passenger, 46, true)
-		SetPedCombatAttributes(Driver, 26, true)    --SetPedCombatAttributes(Passenger, 26, true)
-		SetPedCombatAttributes(Driver, 2, true)     --SetPedCombatAttributes(Passenger, 2, true)
-        SetPedCombatAttributes(Driver, 1, true)     --SetPedCombatAttributes(Passenger, 1, true)
-        SetPedFleeAttributes(Driver, 0, 0)          --SetPedFleeAttributes(Passenger, 0, 0)
-        SetPedPathAvoidFire(Driver, 1)              --SetPedPathAvoidFire(Passenger, 1)
-        SetPedAlertness(Driver,3)                   --SetPedAlertness(Passenger,3)
-        SetPedFiringPattern(Driver, 0xC6EE6B4C)     --SetPedFiringPattern(Passenger, 0xC6EE6B4C)
-        SetPedArmour(Driver, 100)                   --SetPedArmour(Passenger, 100)
-        TaskCombatPed(Driver, target, 0, 16)
-        TaskVehicleChase(Driver, target)
-        --SetPedAsEnemy(Driver, true)                 SetPedAsEnemy(Passenger, true)
-        SetPedDropsWeaponsWhenDead(Driver, false)   --SetPedDropsWeaponsWhenDead(Passenger, false)
-
-        SetBlipAsFriendly(Enemyblip, false)
-        SetBlipFlashes(Enemyblip, true)
-        SetBlipSprite(Enemyblip, 270)
-        SetBlipColour(Enemyblip, 1)
-        print("SpawnEnemy if check done")
-    end
-end
-
-function SpawnEnemy2(x, y, z, target)
-    print("SpawnEnemy triggerd: "..x.." ,"..y.." ,"..z)
-    local done, location, heading = GetClosestVehicleNodeWithHeading(x + math.random(-100, 100), y + math.random(-100, 100), z, 1, 3, 0)
-    RequestModel(0x964D12DC)
-    RequestModel(0x132D5A1A)
-    Citizen.Wait(5000)
-    print("done: "..tostring(done).." location: "..tostring(location).." h: "..tostring(heading))
-    if done and HasModelLoaded(0x964D12DC) and HasModelLoaded(0x132D5A1A) then
-        print("SpawnEnemy if check")
-        Enemyveh2 = CreateVehicle(0x132D5A1A, location, heading, true, false)
-
-        ClearAreaOfVehicles(GetEntityCoords(Enemyveh2), 200, false, false, false, false, false);
-        SetVehicleOnGroundProperly(Enemyveh2)
-        Driver2 = CreatePedInsideVehicle(Enemyveh2, 12, GetHashKey("g_m_y_mexgoon_03"), -1, true, false)
-        --Passenger = CreatePedInsideVehicle(Enemyveh, 12, GetHashKey("g_m_y_mexgoon_03"), 0, true, false)
-        Enemyblip2 = AddBlipForEntity(Driver2)
-        GiveWeaponToPed(Driver2, "WEAPON_MICROSMG", 400, false, true)
-        --GiveWeaponToPed(Passenger, "WEAPON_MICROSMG", 400, false, true)
-
-        SetPedCombatAttributes(Driver2, 5, true)	    --SetPedCombatAttributes(Passenger, 5, true)
-		SetPedCombatAttributes(Driver2, 16, true)    --SetPedCombatAttributes(Passenger, 16, true)
-		SetPedCombatAttributes(Driver2, 46, true)    --SetPedCombatAttributes(Passenger, 46, true)
-		SetPedCombatAttributes(Driver2, 26, true)    --SetPedCombatAttributes(Passenger, 26, true)
-		SetPedCombatAttributes(Driver2, 2, true)     --SetPedCombatAttributes(Passenger, 2, true)
-        SetPedCombatAttributes(Driver2, 1, true)     --SetPedCombatAttributes(Passenger, 1, true)
-        SetPedFleeAttributes(Driver2, 0, 0)          --SetPedFleeAttributes(Passenger, 0, 0)
-        SetPedPathAvoidFire(Driver2, 1)              --SetPedPathAvoidFire(Passenger, 1)
-        SetPedAlertness(Driver2,3)                   --SetPedAlertness(Passenger,3)
-        SetPedFiringPattern(Driver2, 0xC6EE6B4C)     --SetPedFiringPattern(Passenger, 0xC6EE6B4C)
-        SetPedArmour(Driver2, 100)                   --SetPedArmour(Passenger, 100)
-        TaskCombatPed(Driver2, target, 0, 16)
-        TaskVehicleChase(Driver2, target)
-        --SetPedAsEnemy(Driver, true)                 SetPedAsEnemy(Passenger, true)
-        SetPedDropsWeaponsWhenDead(Driver2, false)   --SetPedDropsWeaponsWhenDead(Passenger, false)
-
-        SetBlipAsFriendly(Enemyblip2, false)
-        SetBlipFlashes(Enemyblip2, true)
-        SetBlipSprite(Enemyblip2, 270)
-        SetBlipColour(Enemyblip2, 1)
-        print("SpawnEnemy if check done")
-    end
-end
-
-Citizen.CreateThread(function()
-    while true do
-        Citizen.Wait(1)
-        if Sellstart then
+        if NPCstart then
             if IsEntityDead(Driver) then
                 RemoveBlip(Enemyblip)
             end
-            if IsEntityDead(Driver2) then
-                RemoveBlip(Enemyblip2)
-            end
         end
     end
 end)
 
-Citizen.CreateThread(function()
+Citizen.CreateThread(function() -- Door thingy
     while true do
         Citizen.Wait(1)
         local ped = PlayerPedId()
         local pedcoord = GetEntityCoords(ped)
         local dstCheck = GetDistanceBetweenCoords(pedcoord, Config.Locations.depo, true)
+
         if dstCheck <= 2 then
             if IsControlJustReleased(0, 38) then
                 DoScreenFadeOut(1000)
@@ -644,7 +510,7 @@ Citizen.CreateThread(function()
     end
 end)
 
-Citizen.CreateThread(function()
+Citizen.CreateThread(function() -- Texts and another door thingy
     while true do
         Citizen.Wait(1)
         local pedcoord = GetEntityCoords(PlayerPedId())
@@ -669,7 +535,7 @@ Citizen.CreateThread(function()
     end
 end)
 
-Citizen.CreateThread(function()
+Citizen.CreateThread(function() -- Wooow another door , I should organize them
     while true do
         Citizen.Wait(1)
         local ped = PlayerPedId()
@@ -698,12 +564,12 @@ Citizen.CreateThread(function()
     end
 end)
 
---TP to warehouse
-RegisterNetEvent("utku_wh:tpWH")
+RegisterNetEvent("utku_wh:tpWH") --TP to warehouse
 AddEventHandler("utku_wh:tpWH", function(output, method)
     if output then
         local ped = PlayerPedId()
         local animDict = "mp_arresting"
+
         RequestAnimDict(animDict)
         while not HasAnimDictLoaded(animDict) do
             RequestAnimDict(animDict)
@@ -730,247 +596,80 @@ AddEventHandler("utku_wh:tpWH", function(output, method)
     end
 end)
 
-function GetCurrentInfo()
-    local random    = math.random(1,36)
-    local randomcar = math.random(1, 13)
+Locations = {
+    c1   = vector3(-252.72 , 6347.42 , 31.45 ), h1  = 229.67,     -- Paletobay Care Center
+    c2   = vector3(3596.74 , 3661.80 , 32.85 ), h2  = 75.36 ,     -- Humane Lab Garage 1
+    c3   = vector3(324.64  , -1474.52, 29.66 ), h3  = 232.44,     -- Center Hospital
+    c3_2 = vector3(3597.74 , 3669.79 , 33.0  ), --same heading    -- Humane Lab Garage 2
+    c4   = vector3(1356.89 , 3617.91 , 34.0  ), h4  = 289.05,     -- Trevor Lab
+    c5   = vector3(165.68  , 2284.27 , 93.51 ), h5  = 251.22,     -- Online Meth Lab
+    c6   = vector3(-575.85 , -279.66 , 35.09 ), h6  = 211.72,     -- Vangelico
+    c7   = vector3(-3158.51, 1129.05 , 20.0  ), h7  = 340.76,     -- Chumhas-Barbareno Rd., some store
+    c8   = vector3(1075.92 , -1949.32, 31.01 ), h8  = 143.46,     -- Gem Factory
+    c9   = vector3(-3166.73, 1032.56 , 20.0  ), h9  = 155.60,     -- Chumhas-Barbareno Rd., some electronics store
+    c10  = vector3(369.55  , -818.93 , 28.70 ), h10 = 181.19,     -- Digital Den back alley
+    c11  = vector3(304.85  , -904.96 , 29.29 ), h11 = 71.09 ,     -- Los Santos Theatre
+    c12  = vector3(2489.48 , 4962.31 , 44.0  ), h12 = 135.06,     -- Grapeseed Farm
+    c13  = vector3(3333.35 , 5159.93 , 17.60 ), h13 = 154.27,     -- Lighthouse
+    c14  = vector3(2702.14 , 3453.09 , 55.73 ), h14 = 149.64,     -- You Tool
+    c15  = vector3(-3051.47, 596.57  , 6.50  ), h15 = 287.22,     -- Ineseno Rd, supermarket
+    c16  = vector3(-866.31 , -1123.15, 7.20  ), h16 = 118.30,     -- Liquor Hole
+    c17  = vector3(1995.38 , 3035.81 , 47.03 ), h17 = 148.03,     -- Yellow Jack Inn
+    c18  = vector3(1244.2  , -3289.29, 5.0   ), h18 = 272.84,     -- Some warehose at the port
+    c19  = vector3(1259.60 , -2568.98, 42.0  ), h19 = 292.40,     -- El Burro Heights ruined warehouse
+    c20  = vector3(1564.63 , -2162.92, 77.54 ), h20 = 356.89,     -- El Burro Heights another warehouse
+    c21  = vector3(1686.03 , 6436.29 , 32.45 ), h21 = 150.64,     -- Highway Gas Station
+    c22  = vector3(-676.49 , 5776.40 , 17.33 ), h22 = 64.76 ,     -- Bayview Lodge
+    c23  = vector3(-105.52 , 6489.80 , 31.22 ), h23 = 234.07,     -- Blaine County Savings Bank
+    c24  = vector3(130.33  , 6662.76 , 31.71 ), h24 = 133.51,     -- Blaine County Big Gas Station
+    c25  = vector3(82.73   , 3750.16 , 39.90 ), h25 = 172.25,     -- Stab City
+    c26  = vector3(-1131.74, 2694.28 , 18.8  ), h26 = 136.75,     -- The Paint Shop
+    c27  = vector3(-2571.25, 2338.04 , 33.06 ), h27 = 157.13,     -- Route 68 Gas Station
+    c28  = vector3(350.09  , 4450.57 , 62.84 ), h28 = 6.37  ,     -- North Calafia Way near logs
+    c29  = vector3(1715.32 , 4808.84 , 41.84 ), h29 = 90.00 ,     -- Grapeseed Supermarket
+    c30  = vector3(1947.86 , 3823.04 , 32.06 ), h30 = 28.05 ,     -- Sandy Shores Liquor store
+    c31  = vector3(1063.07 , 2656.37 , 39.55 ), h31 = 2.39  ,     -- Route 68 old cafe
+    c32  = vector3(584.01  , 2788.04 , 42.19 ), h32 = 359.81,     -- Dollar Pills back
+    c33  = vector3(185.26  , 2775.94 , 45.80 ), h33 = 282.55,     -- Some place in Harmony
+    c34  = vector3(-53.31  , 1949.29 , 190.0 ), h34 = 32.89 ,     -- Great Chaparral Settlement
+    c35  = vector3(-1821.21, 809.29  , 138.81), h35 = 303.20      -- Limited LTD Gas Station
+}
 
-    if random == 1 then
-        currentpos     = Locations.c1
-        currentheading = Locations.h1
-    end
-    if random == 2 then
-        currentpos     = Locations.c2
-        currentheading = Locations.h2
-    end
-    if random == 3 then
-        currentpos     = Locations.c3
-        currentheading = Locations.h3
-    end
-    if random == 4 then
-        currentpos     = Locations.c3_2
-        currentheading = Locations.h2
-    end
-    if random == 5 then
-        currentpos     = Locations.c4
-        currentheading = Locations.h4
-    end
-    if random == 6 then
-        currentpos     = Locations.c5
-        currentheading = Locations.h5
-    end
-    if random == 7 then
-        currentpos     = Locations.c6
-        currentheading = Locations.h6
-    end
-    if random == 8 then
-        currentpos     = Locations.c7
-        currentheading = Locations.h7
-    end
-    if random == 9 then
-        currentpos     = Locations.c8
-        currentheading = Locations.h8
-    end
-    if random == 10 then
-        currentpos     = Locations.c9
-        currentheading = Locations.h9
-    end
-    if random == 11 then
-        currentpos     = Locations.c10
-        currentheading = Locations.h10
-    end
-    if random == 12 then
-        currentpos     = Locations.c11
-        currentheading = Locations.h11
-    end
-    if random == 13 then
-        currentpos     = Locations.c12
-        currentheading = Locations.h12
-    end
-    if random == 14 then
-        currentpos     = Locations.c13
-        currentheading = Locations.h13
-    end
-    if random == 15 then
-        currentpos     = Locations.c14
-        currentheading = Locations.h14
-    end
-    if random == 16 then
-        currentpos     = Locations.c15
-        currentheading = Locations.h15
-    end
-    if random == 17 then
-        currentpos     = Locations.c16
-        currentheading = Locations.h16
-    end
-    if random == 18 then
-        currentpos     = Locations.c17
-        currentheading = Locations.h17
-    end
-    if random == 19 then
-        currentpos     = Locations.c18
-        currentheading = Locations.h18
-    end
-    if random == 20 then
-        currentpos     = Locations.c19
-        currentheading = Locations.h19
-    end
-    if random == 21 then
-        currentpos     = Locations.c20
-        currentheading = Locations.h20
-    end
-    if random == 22 then
-        currentpos     = Locations.c21
-        currentheading = Locations.h21
-    end
-    if random == 23 then
-        currentpos     = Locations.c22
-        currentheading = Locations.h22
-    end
-    if random == 24 then
-        currentpos     = Locations.c23
-        currentheading = Locations.h23
-    end
-    if random == 25 then
-        currentpos     = Locations.c24
-        currentheading = Locations.h24
-    end
-    if random == 26 then
-        currentpos     = Locations.c25
-        currentheading = Locations.h25
-    end
-    if random == 27 then
-        currentpos     = Locations.c26
-        currentheading = Locations.h26
-    end
-    if random == 28 then
-        currentpos     = Locations.c27
-        currentheading = Locations.h27
-    end
-    if random == 29 then
-        currentpos     = Locations.c28
-        currentheading = Locations.h28
-    end
-    if random == 30 then
-        currentpos     = Locations.c29
-        currentheading = Locations.h29
-    end
-    if random == 31 then
-        currentpos     = Locations.c30
-        currentheading = Locations.h30
-    end
-    if random == 32 then
-        currentpos     = Locations.c31
-        currentheading = Locations.h31
-    end
-    if random == 33 then
-        currentpos     = Locations.c32
-        currentheading = Locations.h32
-    end
-    if random == 34 then
-        currentpos     = Locations.c33
-        currentheading = Locations.h33
-    end
-    if random == 35 then
-        currentpos     = Locations.c34
-        currentheading = Locations.h34
-    end
-    if random == 36 then
-        currentpos     = Locations.c35
-        currentheading = Locations.h35
-    end
-    if randomcar == 1 then
-        currentcar = Cars.v1
-    end
-    if randomcar == 2 then
-        currentcar = Cars.v2
-    end
-    if randomcar == 3 then
-        currentcar = Cars.v3
-    end
-    if randomcar == 4 then
-        currentcar = Cars.v4
-    end
-    if randomcar == 5 then
-        currentcar = Cars.v5
-    end
-    if randomcar == 6 then
-        currentcar = Cars.v6
-    end
-    if randomcar == 7 then
-        currentcar = Cars.v7
-    end
-    if randomcar == 8 then
-        currentcar = Cars.v8
-    end
-    if randomcar == 9 then
-        currentcar = Cars.v9
-    end
-    if randomcar == 10 then
-        currentcar = Cars.v10
-    end
-    if randomcar == 11 then
-        currentcar = Cars.v11
-    end
-    if randomcar == 12 then
-        currentcar = Cars.v12
-    end
-    if randomcar == 13 then
-        currentcar = Cars.v13
-    end
-end
+Cars = {
+    v1  = "BISON2"  ,
+    v2  = "BISON3"  ,
+    v3  = "BURRITO" ,
+    v4  = "BURRITO2",
+    v5  = "BURRITO3",
+    v6  = "BURRITO4",
+    v7  = "PARADISE",
+    v8  = "RUMBO2"  ,
+    v9  = "SPEEDO"  ,
+    v10 = "SPEEDO4" ,
+    v11 = "SURFER"  ,
+    v12 = "YOUGA"   ,
+    v13 = "YOUGA2"
+}
 
-function GetSellInfo(count, amount)
-    local rnd4 = math.random(1,4)
-    reward = amount
-    if count <= 4 then
-        currentspawn = Sell.sp1
-        c_heading = Sell.h1
-        if rnd4 == 1 then
-            currentpos = Sell.s1
-            currentcar = Sell.car1
-        elseif rnd4 == 2 then
-            currentpos = Sell.s2
-            currentcar = Sell.car2
-        elseif rnd4 == 3 then
-            currentpos = Sell.s3
-            currentcar = Sell.car3
-        elseif rnd4 == 4 then
-            currentpos = Sell.s4
-            currentcar = Sell.car4
-        end
-    end
-    if count > 4 and count <= 8 then
-        currentspawn = Sell.sp2
-        c_heading = Sell.h1
-        if rnd4 == 1 then
-            currentpos = Sell.s5
-            currentcar = Sell.car5
-        elseif rnd4 == 2 then
-            currentpos = Sell.s6
-            currentcar = Sell.car6
-        elseif rnd4 == 3 then
-            currentpos = Sell.s7
-            currentcar = Sell.car7
-        elseif rnd4 == 4 then
-            currentpos = Sell.s8
-            currentcar = Sell.car8
-        end
-    end
-    if count > 8 and count <= 12 then
-        currentspawn = Sell.sp2
-        c_heading = Sell.h2
-        if rnd4 == 1 then
-            currentpos = Sell.s9
-            currentcar = Sell.car9
-        elseif rnd4 == 2 then
-            currentpos = Sell.s10
-            currentcar = Sell.car10
-        elseif rnd4 == 3 then
-            currentpos = Sell.s10
-            currentcar = Sell.car10
-        elseif rnd4 == 4 then
-            currentpos = Sell.s10
-            currentcar = Sell.car10
-        end
-    end
-end
+Sell = {
+    s1  = vector3(-3055.85, 608.66  , 6.22 ), car1  = "MULE"    , -- Low item count
+    s2  = vector3(-2298.06, 433.19  , 147.0), car2  = "MULE"    ,
+    s3  = vector3(-441.91 , 6144.82 , 31.0 ), car3  = "MULE"    ,
+    s4  = vector3(2454.29 , -369.55 , 92.40), car4  = "MULE"    ,
+    s5  = vector3(3480.88 , 3668.41 , 33.30), car5  = "POUNDER2", -- Medium item count
+    s6  = vector3(2772.95 , 1404.07 , 24.10), car6  = "POUNDER2",
+    s7  = vector3(193.06  , 2787.34 , 45.25), car7  = "POUNDER2",
+    s8  = vector3(1027.39 , 2657.39 , 39.05), car8  = "POUNDER2",
+    s9  = vector3(2007.52 , 4987.60 , 41.0 ), car9  = "TERBYTE" , -- High item count
+    s10 = vector3(-600.79 , 5301.42 , 69.85), car10 = "TERBYTE" ,
+    s11 = vector3(3809.66 , 4471.43 , 3.75 ), car11 = "TERBYTE" ,
+    s12 = vector3(205.70  , 6384.08 , 31.0 ), car12 = "TERBYTE" ,
+
+    sp1 = vector3(48.72   , -2566.49, 6.0  ), h1    = 359.0     ,
+    sp2 = vector3(85.79   , -2587.42, 6.0  ), h2    = 268.17    ,
+
+    method1 = 1,
+    method2 = 2,
+    method3 = 3,
+    method4 = 4
+}

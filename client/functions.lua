@@ -239,6 +239,251 @@ function GetTotalWorth()
     end
 end
 
+function GetCurrentInfo()
+    local random    = math.random(1,36)
+    local randomcar = math.random(1, 13)
+
+    if random == 1 then
+        Currentpos     = Locations.c1
+        Currentheading = Locations.h1
+    end
+    if random == 2 then
+        Currentpos     = Locations.c2
+        Currentheading = Locations.h2
+    end
+    if random == 3 then
+        Currentpos     = Locations.c3
+        Currentheading = Locations.h3
+    end
+    if random == 4 then
+        Currentpos     = Locations.c3_2
+        Currentheading = Locations.h2
+    end
+    if random == 5 then
+        Currentpos     = Locations.c4
+        Currentheading = Locations.h4
+    end
+    if random == 6 then
+        Currentpos     = Locations.c5
+        Currentheading = Locations.h5
+    end
+    if random == 7 then
+        Currentpos     = Locations.c6
+        Currentheading = Locations.h6
+    end
+    if random == 8 then
+        Currentpos     = Locations.c7
+        Currentheading = Locations.h7
+    end
+    if random == 9 then
+        Currentpos     = Locations.c8
+        Currentheading = Locations.h8
+    end
+    if random == 10 then
+        Currentpos     = Locations.c9
+        Currentheading = Locations.h9
+    end
+    if random == 11 then
+        Currentpos     = Locations.c10
+        Currentheading = Locations.h10
+    end
+    if random == 12 then
+        Currentpos     = Locations.c11
+        Currentheading = Locations.h11
+    end
+    if random == 13 then
+        Currentpos     = Locations.c12
+        Currentheading = Locations.h12
+    end
+    if random == 14 then
+        Currentpos     = Locations.c13
+        Currentheading = Locations.h13
+    end
+    if random == 15 then
+        Currentpos     = Locations.c14
+        Currentheading = Locations.h14
+    end
+    if random == 16 then
+        Currentpos     = Locations.c15
+        Currentheading = Locations.h15
+    end
+    if random == 17 then
+        Currentpos     = Locations.c16
+        Currentheading = Locations.h16
+    end
+    if random == 18 then
+        Currentpos     = Locations.c17
+        Currentheading = Locations.h17
+    end
+    if random == 19 then
+        Currentpos     = Locations.c18
+        Currentheading = Locations.h18
+    end
+    if random == 20 then
+        Currentpos     = Locations.c19
+        Currentheading = Locations.h19
+    end
+    if random == 21 then
+        Currentpos     = Locations.c20
+        Currentheading = Locations.h20
+    end
+    if random == 22 then
+        Currentpos     = Locations.c21
+        Currentheading = Locations.h21
+    end
+    if random == 23 then
+        Currentpos     = Locations.c22
+        Currentheading = Locations.h22
+    end
+    if random == 24 then
+        Currentpos     = Locations.c23
+        Currentheading = Locations.h23
+    end
+    if random == 25 then
+        Currentpos     = Locations.c24
+        Currentheading = Locations.h24
+    end
+    if random == 26 then
+        Currentpos     = Locations.c25
+        Currentheading = Locations.h25
+    end
+    if random == 27 then
+        Currentpos     = Locations.c26
+        Currentheading = Locations.h26
+    end
+    if random == 28 then
+        Currentpos     = Locations.c27
+        Currentheading = Locations.h27
+    end
+    if random == 29 then
+        Currentpos     = Locations.c28
+        Currentheading = Locations.h28
+    end
+    if random == 30 then
+        Currentpos     = Locations.c29
+        Currentheading = Locations.h29
+    end
+    if random == 31 then
+        Currentpos     = Locations.c30
+        Currentheading = Locations.h30
+    end
+    if random == 32 then
+        Currentpos     = Locations.c31
+        Currentheading = Locations.h31
+    end
+    if random == 33 then
+        Currentpos     = Locations.c32
+        Currentheading = Locations.h32
+    end
+    if random == 34 then
+        Currentpos     = Locations.c33
+        Currentheading = Locations.h33
+    end
+    if random == 35 then
+        Currentpos     = Locations.c34
+        Currentheading = Locations.h34
+    end
+    if random == 36 then
+        Currentpos     = Locations.c35
+        Currentheading = Locations.h35
+    end
+    if randomcar == 1 then
+        Currentcar = Cars.v1
+    end
+    if randomcar == 2 then
+        Currentcar = Cars.v2
+    end
+    if randomcar == 3 then
+        Currentcar = Cars.v3
+    end
+    if randomcar == 4 then
+        Currentcar = Cars.v4
+    end
+    if randomcar == 5 then
+        Currentcar = Cars.v5
+    end
+    if randomcar == 6 then
+        Currentcar = Cars.v6
+    end
+    if randomcar == 7 then
+        Currentcar = Cars.v7
+    end
+    if randomcar == 8 then
+        Currentcar = Cars.v8
+    end
+    if randomcar == 9 then
+        Currentcar = Cars.v9
+    end
+    if randomcar == 10 then
+        Currentcar = Cars.v10
+    end
+    if randomcar == 11 then
+        Currentcar = Cars.v11
+    end
+    if randomcar == 12 then
+        Currentcar = Cars.v12
+    end
+    if randomcar == 13 then
+        Currentcar = Cars.v13
+    end
+end
+
+function GetSellInfo(count, amount)
+    local rnd4 = math.random(1,4)
+    reward = amount
+    if count <= 4 then
+        currentspawn = Sell.sp1
+        c_heading = Sell.h1
+        if rnd4 == 1 then
+            Currentpos = Sell.s1
+            Currentcar = Sell.car1
+        elseif rnd4 == 2 then
+            Currentpos = Sell.s2
+            Currentcar = Sell.car2
+        elseif rnd4 == 3 then
+            Currentpos = Sell.s3
+            Currentcar = Sell.car3
+        elseif rnd4 == 4 then
+            Currentpos = Sell.s4
+            Currentcar = Sell.car4
+        end
+    end
+    if count > 4 and count <= 8 then
+        currentspawn = Sell.sp2
+        c_heading = Sell.h1
+        if rnd4 == 1 then
+            Currentpos = Sell.s5
+            Currentcar = Sell.car5
+        elseif rnd4 == 2 then
+            Currentpos = Sell.s6
+            Currentcar = Sell.car6
+        elseif rnd4 == 3 then
+            Currentpos = Sell.s7
+            Currentcar = Sell.car7
+        elseif rnd4 == 4 then
+            Currentpos = Sell.s8
+            Currentcar = Sell.car8
+        end
+    end
+    if count > 8 and count <= 12 then
+        currentspawn = Sell.sp2
+        c_heading = Sell.h2
+        if rnd4 == 1 then
+            Currentpos = Sell.s9
+            Currentcar = Sell.car9
+        elseif rnd4 == 2 then
+            Currentpos = Sell.s10
+            Currentcar = Sell.car10
+        elseif rnd4 == 3 then
+            Currentpos = Sell.s10
+            Currentcar = Sell.car10
+        elseif rnd4 == 4 then
+            Currentpos = Sell.s10
+            Currentcar = Sell.car10
+        end
+    end
+end
+
 function DrawText3D(x, y, z, text, scale)
 	local onScreen, _x, _y = World3dToScreen2d(x, y, z)
     local pX, pY, pZ = table.unpack(GetGameplayCamCoords())

@@ -52,7 +52,7 @@ AddEventHandler("utku_wh:checkKey", function(thing)
     local xPlayers = ESX.GetPlayers()
     local xPlayer = ESX.GetPlayerFromId(_source)
     local key = xPlayer.getInventoryItem("warehouse_key")["count"]
-    if thing then
+    if thing == 1 then
         if key >= 1 then
             for i=1, #xPlayers, 1 do
                 TriggerClientEvent("utku_wh:upVar", xPlayers[i], "shouldlock", true)
@@ -63,7 +63,7 @@ AddEventHandler("utku_wh:checkKey", function(thing)
                 TriggerClientEvent("utku_wh:upVar", xPlayers[i], "shouldlock", false)
             end
         end
-    else
+    elseif thing == 2 then
         if key >= 1 then
             TriggerClientEvent("utku_wh:tpWH", _source, true, true)
             for i=1, #xPlayers, 1 do
@@ -71,6 +71,12 @@ AddEventHandler("utku_wh:checkKey", function(thing)
             end
         else
             TriggerClientEvent("utku_wh:tpWH", _source, false)
+        end
+    elseif thing == 3 then
+        if key >= 1 then
+            TriggerClientEvent("utku_wh:openLaptop", _source)
+        else
+            TriggerClientEvent('mythic_notify:client:SendAlert', _source, {type = 'inform', text = _("no_access"), length = 3000, style = { ['background-color'] = '#FF0000', ['color'] = '#000000' } })
         end
     end
 end)

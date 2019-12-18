@@ -580,7 +580,7 @@ Citizen.CreateThread(function() -- Door thingy
                 SetEntityCoords(ped, Config.Locations.depokapi, 1, 0, 0, 1)
                 SetEntityHeading(ped, 270.25)
                 Citizen.Wait(500)
-                TriggerServerEvent("utku_wh:checkKey", true)
+                TriggerServerEvent("utku_wh:checkKey", 1)
                 Citizen.Wait(200)
                 DoScreenFadeIn(1000)
                 if shouldlock then
@@ -611,7 +611,7 @@ Citizen.CreateThread(function() -- Texts and another door thingy
         end
         if dst2 <= 1.5 then
             if IsControlJustReleased(0, 38) and locked then
-                TriggerServerEvent("utku_wh:checkKey")
+                TriggerServerEvent("utku_wh:checkKey", 2)
             elseif IsControlJustReleased(0, 38) and not locked then
                 TriggerEvent("utku_wh:tpWH", true, false)
             end
@@ -629,23 +629,29 @@ Citizen.CreateThread(function() -- Wooow another door , I should organize them
 
         if IsControlJustReleased(0, 38) and dst <= 1.5 then
             if not Delstart then
-            RequestAnimDict("anim@amb@warehouse@laptop@")
-            while not HasAnimDictLoaded("anim@amb@warehouse@laptop@") do
-                RequestAnimDict("anim@amb@warehouse@laptop@")
-                Citizen.Wait(10)
+                TriggerServerEvent("utku_wh:checkKey", 3)
+            else
+                exports['mythic_notify']:SendAlert("error", _U("alreadydel"))
             end
-            SetEntityCoords(ped, 1088.45, -3101.28, -40.0, 1, 0, 0, 1)
-            SetEntityHeading(ped, 96.45)
-            TaskPlayAnim(ped, "anim@amb@warehouse@laptop@", "enter", 8.0, 8.0, 0.1, 0, 1, false, false, false)
-            Citizen.Wait(600)
-            TaskPlayAnim(ped, "anim@amb@warehouse@laptop@", "idle_a", 8.0, 8.0, -1, 1, 1, false, false, false)
-            Citizen.Wait(1000)
-            OpenLaptop()
-        else
-            exports['mythic_notify']:SendAlert("error", _U("alreadydel"))
-        end
         end
     end
+end)
+
+RegisterNetEvent("utku_wh:openLaptop")
+AddEventHandler("utku_wh:openLaptop", function()
+    local ped = PlayerPedId()
+    RequestAnimDict("anim@amb@warehouse@laptop@")
+    while not HasAnimDictLoaded("anim@amb@warehouse@laptop@") do
+        RequestAnimDict("anim@amb@warehouse@laptop@")
+        Citizen.Wait(10)
+    end
+    SetEntityCoords(ped, 1088.45, -3101.28, -40.0, 1, 0, 0, 1)
+    SetEntityHeading(ped, 96.45)
+    TaskPlayAnim(ped, "anim@amb@warehouse@laptop@", "enter", 8.0, 8.0, 0.1, 0, 1, false, false, false)
+    Citizen.Wait(600)
+    TaskPlayAnim(ped, "anim@amb@warehouse@laptop@", "idle_a", 8.0, 8.0, -1, 1, 1, false, false, false)
+    Citizen.Wait(1000)
+    OpenLaptop()
 end)
 
 RegisterNetEvent("utku_wh:tpWH") --TP to warehouse

@@ -193,7 +193,7 @@ Citizen.CreateThread(function() -- Countdown
     end
 end)
 
-Citizen.CreateThread(function()
+Citizen.CreateThread(function() -- Player and vehicle status check
     while true do
         Citizen.Wait(1)
         while Sellstart or pickup or whstart or Delstart do
@@ -204,7 +204,7 @@ Citizen.CreateThread(function()
             local needcar = GetDisplayNameFromVehicleModel(GetEntityModel(Missioncar))
             local enghealth = GetVehicleEngineHealth(Missioncar)
 
-            if IsEntityDead(ped) then
+            if IsEntityDead(ped) then -- This works fine
                 Delstart = false
                 drawmarker = false
                 whstart = false
@@ -224,7 +224,7 @@ Citizen.CreateThread(function()
                 Citizen.Wait(6000)
                 draw = false
             end
-            if vehname == needcar and (enghealth <= 150) then
+            if vehname == needcar and (enghealth <= 150) then -- I haven't got time to test this, sorry...
                 Delstart = false
                 drawmarker = false
                 whstart = false
@@ -452,7 +452,6 @@ Citizen.CreateThread(function() -- Main action
                     SetEntityCoords(player, Config.Locations.depo, 1, 0, 0, 1)
                     Citizen.Wait(1000)
                     DoScreenFadeIn(1000)
-                    --exports['mythic_notify']:SendAlert("success", _U("delivered"))
                     TriggerEvent("utku_wh:itemEkle", currentslot)
                     header = _U("success")
                     text = _U("delivered")
@@ -531,9 +530,11 @@ end)
 Citizen.CreateThread(function()
     while true do
         Citizen.Wait(1)
-        if NPCstart then
-            if IsEntityDead(Driver) then
-                RemoveBlip(Enemyblip)
+        if Config.enablenpc then
+            if NPCstart then
+                if IsEntityDead(Driver) then
+                    RemoveBlip(Enemyblip)
+                end
             end
         end
     end
@@ -731,7 +732,7 @@ Sell = {
     sp1 = vector3(48.72   , -2566.49, 6.0  ), h1    = 359.0     ,
     sp2 = vector3(85.79   , -2587.42, 6.0  ), h2    = 268.17    ,
 
-    method1 = 1,
+    method1 = 1, -- not being used right now
     method2 = 2,
     method3 = 3,
     method4 = 4

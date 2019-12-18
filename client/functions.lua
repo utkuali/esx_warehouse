@@ -163,9 +163,13 @@ function OpenLaptop() -- Laptop Menu
                 if action == "info" then
                     exports['mythic_notify']:SendAlert("error", _U("info_s")..tostring(bonus).."$")
                 elseif action == "sell" then
-                    TriggerEvent("utku_wh:sell", count, worth)
-                    TaskPlayAnim(ped, "anim@amb@warehouse@laptop@", "exit", 8.0, 8.0, 0.1, 0, 1, false, false, false)
-                    ESX.UI.Menu.CloseAll()
+                    if count >= 1 then
+                        TriggerEvent("utku_wh:sell", count, worth)
+                        TaskPlayAnim(ped, "anim@amb@warehouse@laptop@", "exit", 8.0, 8.0, 0.1, 0, 1, false, false, false)
+                        ESX.UI.Menu.CloseAll()
+                    else
+                        exports['mythic_notify']:SendAlert("empty", _U("already_have"))
+                    end
                 end
             end, function(data2, menu2)
                 menu2.close()

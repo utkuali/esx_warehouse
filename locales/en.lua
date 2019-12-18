@@ -17,6 +17,7 @@ Locales["en"] = {
     ["uselaptop"] = "Use Laptop",
     ["alreadydel"] = "You are currently in delivery proccess!",
     ["enough_m"] = "You don't have enough money!",
+    ["empty"] = "You have noting to sell.",
     ["pickup_s"] = "Go to the pickup locaiton marked on your GPS!",
     ["pickup_f"] = "There was a problem in delivery, you have lost your money!",
     ["main_title"] = "Warehouse Menu",

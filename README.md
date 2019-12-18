@@ -18,3 +18,7 @@ DO NOT FORGET TO ADD "warehouse_key" TO YOUR DATABASE!
 
 
 Using of issues are appreciated.
+
+
+Required resources:
+ESX, mythicnotify, progressBars

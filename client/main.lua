@@ -11,7 +11,6 @@ local c_heading = nil
 local draw = false
 local header = nil
 local text = nil
-local Reward = 0
 local markerloc = nil
 local NPCstart = false
 Delstart = false
@@ -489,7 +488,6 @@ Citizen.CreateThread(function() -- Main action
                     DeleteEntity(playercar)
                     Citizen.Wait(1000)
                     DoScreenFadeIn(1000)
-                    --exports['mythic_notify']:SendAlert("success", _U("delivered"))
                     TriggerServerEvent("utku_wh:sellGoods", Reward)
                     header = _U("success")
                     text = _U("sold")

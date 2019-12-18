@@ -102,5 +102,9 @@ AddEventHandler("utku_wh:sellGoods", function(amount)
     local _source = source
     local xPlayer = ESX.GetPlayerFromId(_source)
 
-    xPlayer.addMoney(amount)
+    if not Config.blackmoney then
+        xPlayer.addMoney(amount)
+    else
+        xPlayer.addAccountMoney("black_money", amount) -- thx for reminding me Mikolas
+    end
 end)

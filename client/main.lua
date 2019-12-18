@@ -41,7 +41,7 @@ AddEventHandler('esx:playerLoaded', function(xPlayer)
     if shouldSave then
         SaveToDatabase()
     end
-    for i = 1, #Warehouse, 1 do
+    for i = 1, #Warehouse, 1 do -- this should ensure that objects are created for everyone (not sure tho)
         Warehouse[i].created = false
         TriggerServerEvent("utku_wh:updateWH", Warehouse)
     end

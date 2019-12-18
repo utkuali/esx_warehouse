@@ -736,18 +736,18 @@ Cars = {
 }
 
 Sell = {
-    s1  = vector3(-3055.85, 608.66  , 6.22 ), car1  = "MULE"    , -- Low item count
-    s2  = vector3(-2298.06, 433.19  , 147.0), car2  = "MULE"    ,
-    s3  = vector3(-441.91 , 6144.82 , 31.0 ), car3  = "MULE"    ,
-    s4  = vector3(2454.29 , -369.55 , 92.40), car4  = "MULE"    ,
-    s5  = vector3(3480.88 , 3668.41 , 33.30), car5  = "POUNDER2", -- Medium item count
-    s6  = vector3(2772.95 , 1404.07 , 24.10), car6  = "POUNDER2",
-    s7  = vector3(193.06  , 2787.34 , 45.25), car7  = "POUNDER2",
-    s8  = vector3(1027.39 , 2657.39 , 39.05), car8  = "POUNDER2",
-    s9  = vector3(2007.52 , 4987.60 , 41.0 ), car9  = "TERBYTE" , -- High item count
-    s10 = vector3(-600.79 , 5301.42 , 69.85), car10 = "TERBYTE" ,
-    s11 = vector3(3809.66 , 4471.43 , 3.75 ), car11 = "TERBYTE" ,
-    s12 = vector3(205.70  , 6384.08 , 31.0 ), car12 = "TERBYTE" ,
+    s1  = vector3(-3055.85, 608.66  , 6.0 ), car1  = "MULE"    , -- Low item count
+    s2  = vector3(-2298.06, 433.19  , 146.80), car2  = "MULE"    ,
+    s3  = vector3(-441.91 , 6144.82 , 30.85 ), car3  = "MULE"    ,
+    s4  = vector3(2454.29 , -369.55 , 92.15), car4  = "MULE"    ,
+    s5  = vector3(3480.88 , 3668.41 , 33.10), car5  = "POUNDER2", -- Medium item count
+    s6  = vector3(2772.95 , 1404.07 , 24.0), car6  = "POUNDER2",
+    s7  = vector3(193.06  , 2787.34 , 45.0), car7  = "POUNDER2",
+    s8  = vector3(1027.39 , 2657.39 , 38.85), car8  = "POUNDER2",
+    s9  = vector3(2007.52 , 4987.60 , 40.80 ), car9  = "TERBYTE" , -- High item count
+    s10 = vector3(-600.79 , 5301.42 , 69.55), car10 = "TERBYTE" ,
+    s11 = vector3(3809.66 , 4471.43 , 3.45 ), car11 = "TERBYTE" ,
+    s12 = vector3(205.70  , 6384.08 , 30.75 ), car12 = "TERBYTE" ,
 
     sp1 = vector3(48.72   , -2566.49, 6.0  ), h1    = 359.0     ,
     sp2 = vector3(85.79   , -2587.42, 6.0  ), h2    = 268.17    ,

@@ -21,4 +21,6 @@ Using of issues are appreciated.
 
 
 Required resources:
-ESX, mythicnotify, progressBars
+ESX: https://github.com/ESX-Org/es_extended
+mythicnotify: https://github.com/mythicrp/mythic_notify
+progressBars: https://github.com/torpidity/progressBars/tree/1.0

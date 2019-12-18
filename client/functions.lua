@@ -168,7 +168,7 @@ function OpenLaptop() -- Laptop Menu
                         TaskPlayAnim(ped, "anim@amb@warehouse@laptop@", "exit", 8.0, 8.0, 0.1, 0, 1, false, false, false)
                         ESX.UI.Menu.CloseAll()
                     else
-                        exports['mythic_notify']:SendAlert("empty", _U("already_have"))
+                        exports['mythic_notify']:SendAlert("error", _U("empty"))
                     end
                 end
             end, function(data2, menu2)

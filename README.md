@@ -21,6 +21,7 @@ Using of issues are appreciated.
 
 
 Required resources:
+
 ESX: https://github.com/ESX-Org/es_extended
 
 mythicnotify: https://github.com/mythicrp/mythic_notify

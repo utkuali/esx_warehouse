@@ -479,6 +479,7 @@ Citizen.CreateThread(function() -- Main action
                     drawmarker = false
                     Sellstart = false
                     NPCstart = false
+                    Starttimer = false
                     Citizen.Wait(10)
                     RemoveBlip(currentblip)
                     RemoveBlip(Enemyblip)
@@ -512,13 +513,21 @@ Citizen.CreateThread(function() -- NPC actions // yay it works now!
                 local finishline = Currentpos
                 local distance = GetDistanceBetweenCoords(playerloc, finishline, false)
 
-                if distance >= 500 then
+                if distance >= 400 then
                     Citizen.Wait(2000)
                     if not DoesEntityExist(Driver) or IsEntityDead(Driver) then
                         Citizen.Wait(10000)
                         Currentloc = GetEntityCoords(player)
                         SpawnEnemyNPC(Currentloc.x, Currentloc.y, Currentloc.x, player)
                     end
+                else
+                    ClearPedTasksImmediately(Driver)
+                    SetPedAlertness(Driver, 0)
+                    SetPedCombatAttributes(Driver, 46, false)
+                    RemoveBlip(Enemyblip)
+                    Citizen.Wait(15000)
+                    DeleteEntity(Driver)
+                    DeleteEntity(Enemyveh)
                 end
                 Citizen.Wait(1)
             end
@@ -534,6 +543,17 @@ Citizen.CreateThread(function()
             if NPCstart then
                 if IsEntityDead(Driver) then
                     RemoveBlip(Enemyblip)
+                end
+            end
+            if not NPCstart then
+                if not IsEntityDead(Driver) and DoesEntityExist(Driver) then
+                    ClearPedTasksImmediately(Driver)
+                    SetPedAlertness(Driver, 0)
+                    SetPedCombatAttributes(Driver, 46, false)
+                    RemoveBlip(Enemyblip)
+                    Citizen.Wait(15000)
+                    DeleteEntity(Driver)
+                    DeleteEntity(Enemyveh)
                 end
             end
         end

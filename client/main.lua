@@ -238,7 +238,7 @@ Citizen.CreateThread(function() -- Player and vehicle status check
                 currentslot = nil
                 PlaySoundFrontend(-1, "Bed", "WastedSounds", 0)
                 header = _U("failed")
-                text = _U("died")
+                text = _U("broken")
                 Citizen.Wait(200)
                 draw = true
                 Citizen.Wait(6000)

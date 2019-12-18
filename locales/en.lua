@@ -6,6 +6,7 @@ Locales["en"] = {
     ["delivered"] = "Delivery completed",
     ["sold"] = "Selling completed",
     ["died"] = "You died",
+    ["broken"] = "Vehicle incapacitated",
     ["locking"] = "Door Locking",
     ["unlocking"] = "Door Unlocking",
     ["locked"] = "Door is locked.",

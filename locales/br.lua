@@ -18,6 +18,7 @@ Locales["br"] = {
     ["uselaptop"] = "",
     ["alreadydel"] = "",
     ["enough_m"] = "",
+    ["no_access"] = "",
     ["empty"] = "",
     ["pickup_s"] = "",
     ["pickup_f"] = "",

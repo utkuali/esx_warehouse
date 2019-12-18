@@ -17,6 +17,7 @@ Locales["en"] = {
     ["uselaptop"] = "Laptop Kullan",
     ["alreadydel"] = "Şu anda teslimat işlemindesin!",
     ["enough_m"] = "Yeterince paran yok!",
+    ["no_access"] = "Laptopa erişim iznin yok.",
     ["empty"] = "Satacak bir şeyin yok.",
     ["pickup_s"] = "GPS'inde işaretlenen alma yerine git!",
     ["pickup_f"] = "Teslimatta bir problem oldu, paranı kaybettin!",

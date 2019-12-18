@@ -1,4 +1,4 @@
-Locales["pl"] = {
+Locales["fi"] = {
     ["blip_p"] = "",
     ["blip_d"] = "",
     ["blip_s"] = "",

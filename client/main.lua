@@ -1,22 +1,8 @@
 ESX = nil
 PlayerData = {}
-local whstart = false
-local currentslot = nil
-local currentblip = nil
-local pickup = false
-local drawmarker = false
+local whstart, pickup, drawmarker, shouldlock, draw, NPCstart, Delstart, Sellstart = false, false, false, false, false, false, false, false
+local currentslot, currentblip, c_heading, header, text, markerloc, Missioncar
 local locked = true
-local shouldlock = false
-local c_heading = nil
-local draw = false
-local header = nil
-local text = nil
-local markerloc = nil
-local NPCstart = false
-Delstart = false
-Sellstart = false
-Missioncar = nil
-Obj = nil
 
 Citizen.CreateThread(function()
 	while ESX == nil do
@@ -93,13 +79,15 @@ AddEventHandler("utku_wh:sell", function(count, amount)
     GetSellInfo(count, amount)
     Sellstart = true
     Starttimer = true
-    Citizen.Wait(6000)
-    NPCstart = true
     for i = 1, #Warehouse, 1 do -- not working currently I think
         Warehouse[i].empty = true
         Warehouse[i].created = false
         TriggerServerEvent("utku_wh:updateWH", Warehouse)
     end
+    Citizen.Wait(6000)
+    NPCstart = true
+    Citizen.Wait(1000)
+    TriggerEvent("utku_wh:delobj")
 end)
 
 RegisterNetEvent("utku_wh:itemEkle")
@@ -108,6 +96,18 @@ AddEventHandler("utku_wh:itemEkle", function(currentslot)
         if Warehouse[i].slot == currentslot then
             Warehouse[i].empty = false
             TriggerServerEvent("utku_wh:updateWH", Warehouse)
+        end
+    end
+end)
+
+RegisterNetEvent("utku_wh:delobj")
+AddEventHandler("utku_wh:delobj", function()
+    for i = 1, #Warehouse, 1 do
+        if Warehouse[i].empty == true then
+            local coords = vector3(Warehouse[i].x, Warehouse[i].y, Warehouse[i].z)
+            local obj = ESX.Game.GetClosestObject((Warehouse[i].obj), coords)
+            --print(obj)
+            DeleteEntity(obj)
         end
     end
 end)
@@ -123,14 +123,6 @@ Citizen.CreateThread(function() -- update object
                     CreateObject(hash, coords, false, false)
                     Warehouse[i].created = true
                     TriggerServerEvent("utku_wh:updateWH", Warehouse)
-                end
-            end
-            if Warehouse[i].empty == true then
-                if Warehouse[i].created == true then
-                    local coords = vector3(Warehouse[i].x, Warehouse[i].y, Warehouse[i].z)
-                    local obj = GetClosestObjectOfType(coords, 1, GetHashKey(Warehouse[i].obj), false, 0, 0)
-                    DeleteEntity(obj)
-                    print("deleted: " ..Warehouse[i].slot)
                 end
             end
         end
@@ -743,7 +735,7 @@ Cars = {
 
 Sell = {
     s1  = vector3(-3055.85, 608.66  , 6.0 ), car1  = "MULE"    , -- Low item count
-    s2  = vector3(-2298.06, 433.19  , 146.80), car2  = "MULE"    ,
+    s2  = vector3(-2298.06, 433.19  , 173.85), car2  = "MULE"    ,
     s3  = vector3(-441.91 , 6144.82 , 30.85 ), car3  = "MULE"    ,
     s4  = vector3(2454.29 , -369.55 , 92.15), car4  = "MULE"    ,
     s5  = vector3(3480.88 , 3668.41 , 33.10), car5  = "POUNDER2", -- Medium item count

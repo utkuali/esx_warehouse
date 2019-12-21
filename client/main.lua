@@ -360,7 +360,7 @@ Citizen.CreateThread(function() -- Blips
 			        AddTextComponentString(_U("blip_v"))
 			        EndTextCommandSetBlipName(vehblip)
                     SetBlipAsShortRange(vehblip, false)
-                    ESX.ShowNotification("~b~~h~Get back to the delivery vehicle!")
+                    ESX.ShowNotification(_U("getback_vehicle"))
                 else
                     Citizen.Wait(1)
                 end

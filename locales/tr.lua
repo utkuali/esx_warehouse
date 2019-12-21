@@ -2,6 +2,7 @@ Locales["en"] = {
     ["blip_p"] = "Kutu",
     ["blip_d"] = "Depo",
     ["blip_s"] = "Teslimat Yeri",
+    ["blip_v"] = "Teslimat Aracı",
     ["success"] = "~g~BAŞARILI",
     ["delivered"] = "Teslimat tamamlandı",
     ["sold"] = "Satış tamamlandı",
@@ -45,5 +46,6 @@ Locales["en"] = {
     ["5min"] = "5 Dakika kaldı!",
     ["10sec"] = "10 saniye kaldı!",
     ["failed"] = "~r~BAŞARISIZ",
-    ["timesup"] = "Zaman doldu!"
+    ["timesup"] = "Zaman doldu!",
+    ["getback_vehicle"] = "~b~~h~Araca geri dön!"
 }

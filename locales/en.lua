@@ -2,6 +2,7 @@ Locales["en"] = {
     ["blip_p"] = "Crate",
     ["blip_d"] = "Warehouse",
     ["blip_s"] = "Delivery Point",
+    ["blip_v"] = "Delivery Vehicle",
     ["success"] = "~g~SUCCESS",
     ["delivered"] = "Delivery completed",
     ["sold"] = "Selling completed",
@@ -46,5 +47,6 @@ Locales["en"] = {
     ["5min"] = "5 Minutes remaining!",
     ["10sec"] = "10 seconds remaining!",
     ["failed"] = "~r~FAILED",
-    ["timesup"] = "Time is up!"
+    ["timesup"] = "Time is up!",
+    ["getback_vehicle"] = "~b~~h~Get back to the delivery vehicle!"
 }

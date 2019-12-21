@@ -2,6 +2,7 @@ Locales["pl"] = {
     ["blip_p"] = "",
     ["blip_d"] = "",
     ["blip_s"] = "",
+    ["blip_v"] = "",
     ["success"] = "~g~",
     ["delivered"] = "",
     ["sold"] = "",
@@ -46,5 +47,6 @@ Locales["pl"] = {
     ["5min"] = "",
     ["10sec"] = "",
     ["failed"] = "~r~",
-    ["timesup"] = ""
+    ["timesup"] = "",
+    ["getback_vehicle"] = "~b~~h~"
 }

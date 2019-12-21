@@ -91,7 +91,6 @@ end)
 
 RegisterServerEvent("utku_wh:checkMoney")
 AddEventHandler("utku_wh:checkMoney", function(amount, action)
-    print("checkMoney")
     local _source = source
     local xPlayer = ESX.GetPlayerFromId(_source)
 

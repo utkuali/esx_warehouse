@@ -186,9 +186,7 @@ function SpawnEnemyNPC(x, y, z, target) -- Seems to work just fine // problem is
 
     RequestModel(0x964D12DC)
     RequestModel(0x132D5A1A)
-    Citizen.Wait(5000)
     if done and HasModelLoaded(0x964D12DC) and HasModelLoaded(0x132D5A1A) then
-        print("SpawnEnemy if check")
         Enemyveh = CreateVehicle(0x132D5A1A, location, heading, true, false)
 
         ClearAreaOfVehicles(GetEntityCoords(Enemyveh), 200, false, false, false, false, false);

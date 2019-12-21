@@ -1,7 +1,7 @@
 ESX = nil
 PlayerData = {}
 local whstart, pickup, drawmarker, shouldlock, draw, NPCstart, Delstart, Sellstart = false, false, false, false, false, false, false, false
-local currentslot, currentblip, c_heading, header, text, markerloc, Missioncar
+local currentslot, currentblip, vehblip, C_heading, header, text, markerloc, Missioncar
 local locked = true
 
 Citizen.CreateThread(function()
@@ -77,9 +77,11 @@ RegisterNetEvent("utku_wh:sell")
 AddEventHandler("utku_wh:sell", function(count, amount)
     Timer = Config.selltime
     GetSellInfo(count, amount)
+    TriggerEvent("utku_wh:startSell")
+    Citizen.Wait(1000)
     Sellstart = true
     Starttimer = true
-    for i = 1, #Warehouse, 1 do -- not working currently I think
+    for i = 1, #Warehouse, 1 do -- should work now !
         Warehouse[i].empty = true
         Warehouse[i].created = false
         TriggerServerEvent("utku_wh:updateWH", Warehouse)
@@ -106,7 +108,6 @@ AddEventHandler("utku_wh:delobj", function()
         if Warehouse[i].empty == true then
             local coords = vector3(Warehouse[i].x, Warehouse[i].y, Warehouse[i].z)
             local obj = ESX.Game.GetClosestObject((Warehouse[i].obj), coords)
-            --print(obj)
             DeleteEntity(obj)
         end
     end
@@ -191,7 +192,7 @@ Citizen.CreateThread(function() -- Player and vehicle status check
         while Sellstart or pickup or whstart or Delstart do
             Citizen.Wait(1)
             local ped = PlayerPedId()
-            local currentveh = GetVehiclePedIsUsing(player)
+            local currentveh = GetVehiclePedIsUsing(ped)
             local vehname = GetDisplayNameFromVehicleModel(GetEntityModel(currentveh))
             local needcar = GetDisplayNameFromVehicleModel(GetEntityModel(Missioncar))
             local enghealth = GetVehicleEngineHealth(Missioncar)
@@ -324,56 +325,85 @@ Citizen.CreateThread(function() -- Blips
             end
         end
         if whstart then
-            if not DoesBlipExist(currentblip) then
-                Citizen.Wait(50)
-                markerloc = Config.Locations.deliver
-                drawmarker = true
-                currentblip = AddBlipForCoord(Config.Locations.deliver)
-                SetBlipSprite(currentblip, 473)
-			    SetBlipColour(currentblip, 1)
-			    BeginTextCommandSetBlipName("STRING")
-			    AddTextComponentString(_U("blip_d"))
-			    EndTextCommandSetBlipName(currentblip)
-			    SetBlipAsShortRange(currentblip, false)
-			    SetBlipAsMissionCreatorBlip(currentblip, true)
-                SetBlipRoute(currentblip, 1)
+            local ped = PlayerPedId()
+            local vehicle = IsPedInAnyVehicle(ped, false)
+            local currentveh = GetVehiclePedIsUsing(ped)
+            local vehname = GetDisplayNameFromVehicleModel(GetEntityModel(currentveh))
+            local needcar = GetDisplayNameFromVehicleModel(GetEntityModel(Missioncar))
+
+            if vehname == needcar and vehicle then
+                if not DoesBlipExist(currentblip) then
+                    RemoveBlip(vehblip)
+                    Citizen.Wait(50)
+                    markerloc = Config.Locations.deliver
+                    drawmarker = true
+                    currentblip = AddBlipForCoord(Config.Locations.deliver)
+                    SetBlipSprite(currentblip, 473)
+			        SetBlipColour(currentblip, 1)
+			        BeginTextCommandSetBlipName("STRING")
+			        AddTextComponentString(_U("blip_d"))
+			        EndTextCommandSetBlipName(currentblip)
+			        SetBlipAsShortRange(currentblip, false)
+			        SetBlipAsMissionCreatorBlip(currentblip, true)
+                    SetBlipRoute(currentblip, 1)
+                else
+                    Citizen.Wait(1)
+                end
             else
-                Citizen.Wait(1)
+                if not DoesBlipExist(vehblip) then
+                    RemoveBlip(currentblip)
+                    vehblip = AddBlipForEntity(Missioncar)
+                    SetBlipSprite(vehblip, 478)
+                    SetBlipColour(vehblip, 38)
+                    SetBlipFlashes(vehblip, true)
+			        BeginTextCommandSetBlipName("STRING")
+			        AddTextComponentString(_U("blip_v"))
+			        EndTextCommandSetBlipName(vehblip)
+                    SetBlipAsShortRange(vehblip, false)
+                    ESX.ShowNotification("~b~~h~Get back to the delivery vehicle!")
+                else
+                    Citizen.Wait(1)
+                end
             end
         end
         if Sellstart then
-            if not DoesBlipExist(currentblip) then
-                local ped = PlayerPedId()
+            local ped = PlayerPedId()
+            local vehicle = IsPedInAnyVehicle(ped, false)
+            local currentveh = GetVehiclePedIsUsing(ped)
+            local vehname = GetDisplayNameFromVehicleModel(GetEntityModel(currentveh))
+            local needcar = GetDisplayNameFromVehicleModel(GetEntityModel(Missioncar))
 
-                Citizen.Wait(50)
-                currentblip = AddBlipForCoord(Currentpos)
-                SetBlipSprite(currentblip, 479)
-			    SetBlipColour(currentblip, 5)
-			    BeginTextCommandSetBlipName("STRING")
-			    AddTextComponentString(_U("blip_s"))
-			    EndTextCommandSetBlipName(currentblip)
-			    SetBlipAsShortRange(currentblip, false)
-			    SetBlipAsMissionCreatorBlip(currentblip, true)
-                SetBlipRoute(currentblip, 1)
-
-                RequestModel(GetHashKey(Currentcar))
-                while not HasModelLoaded(GetHashKey(Currentcar)) do
+            if vehname == needcar and vehicle then
+                if not DoesBlipExist(currentblip) then
+                    RemoveBlip(vehblip)
+                    Citizen.Wait(50)
+                    currentblip = AddBlipForCoord(Currentpos)
+                    SetBlipSprite(currentblip, 479)
+			        SetBlipColour(currentblip, 5)
+			        BeginTextCommandSetBlipName("STRING")
+			        AddTextComponentString(_U("blip_s"))
+			        EndTextCommandSetBlipName(currentblip)
+			        SetBlipAsShortRange(currentblip, false)
+			        SetBlipAsMissionCreatorBlip(currentblip, true)
+                    SetBlipRoute(currentblip, 1)
+                else
                     Citizen.Wait(1)
                 end
-                Missioncar = CreateVehicle(GetHashKey(Currentcar), Currentspawn, false, true)
-
-                SetEntityHeading(Missioncar, c_heading)
-                SetVehicleOnGroundProperly(Missioncar)
-                SetModelAsNoLongerNeeded(GetHashKey(Currentcar))
-                DoScreenFadeOut(500)
-                Citizen.Wait(500)
-                SetPedIntoVehicle(ped, Missioncar, -1)
-                Citizen.Wait(1000)
-                DoScreenFadeIn(500)
-                markerloc = Currentpos
-                drawmarker = true
             else
-                Citizen.Wait(1)
+                if not DoesBlipExist(vehblip) then
+                    RemoveBlip(currentblip)
+                    vehblip = AddBlipForEntity(Missioncar)
+                    SetBlipSprite(vehblip, 478)
+                    SetBlipColour(vehblip, 38)
+                    SetBlipFlashes(vehblip, true)
+			        BeginTextCommandSetBlipName("STRING")
+			        AddTextComponentString(_U("blip_v"))
+			        EndTextCommandSetBlipName(vehblip)
+                    SetBlipAsShortRange(vehblip, false)
+                    ESX.ShowNotification("~b~~h~Get back to the delivery vehicle!")
+                else
+                    Citizen.Wait(1)
+                end
             end
         end
     end
@@ -399,10 +429,9 @@ Citizen.CreateThread(function() -- Main action
         if pickup then
             local player = PlayerPedId()
             local dst = GetDistanceBetweenCoords(GetEntityCoords(player), Currentpos, true)
-            local ped = GetPlayerPed(-1)
 
             if dst <= 2.0 then
-                local vehicle = IsPedInAnyVehicle(ped, false)
+                local vehicle = IsPedInAnyVehicle(player, false)
                 local currentveh = GetVehiclePedIsUsing(player)
                 local vehname = GetDisplayNameFromVehicleModel(GetEntityModel(currentveh))
                 local needcar = GetDisplayNameFromVehicleModel(GetEntityModel(Missioncar))
@@ -629,6 +658,29 @@ Citizen.CreateThread(function() -- Wooow another door , I should organize them
     end
 end)
 
+RegisterNetEvent("utku_wh:startSell")
+AddEventHandler("utku_wh:startSell", function()
+    local ped = PlayerPedId()
+
+    RequestModel(GetHashKey(Currentcar))
+    while not HasModelLoaded(GetHashKey(Currentcar)) do
+        Citizen.Wait(1)
+    end
+    Missioncar = CreateVehicle(GetHashKey(Currentcar), Currentspawn, false, true)
+
+    SetEntityHeading(Missioncar, C_heading)
+    SetVehicleOnGroundProperly(Missioncar)
+    SetModelAsNoLongerNeeded(GetHashKey(Currentcar))
+    DoScreenFadeOut(500)
+    Citizen.Wait(500)
+    SetPedIntoVehicle(ped, Missioncar, -1)
+    Citizen.Wait(1000)
+    DoScreenFadeIn(500)
+    markerloc = Currentpos
+    drawmarker = true
+    TriggerServerEvent("utku_wh:upVar_s", "locked", true)
+end)
+
 RegisterNetEvent("utku_wh:openLaptop")
 AddEventHandler("utku_wh:openLaptop", function()
     local ped = PlayerPedId()
@@ -687,19 +739,19 @@ Locations = {
     c5   = vector3(165.68  , 2284.27 , 93.51 ), h5  = 251.22,     -- Online Meth Lab
     c6   = vector3(-575.85 , -279.66 , 35.09 ), h6  = 211.72,     -- Vangelico
     c7   = vector3(-3158.51, 1129.05 , 20.0  ), h7  = 340.76,     -- Chumhas-Barbareno Rd., some store
-    c8   = vector3(1075.92 , -1949.32, 31.01 ), h8  = 143.46,     -- Gem Factory
+    c8   = vector3(1075.92 , -1949.32, 31.10 ), h8  = 143.46,     -- Gem Factory
     c9   = vector3(-3166.73, 1032.56 , 20.0  ), h9  = 155.60,     -- Chumhas-Barbareno Rd., some electronics store
     c10  = vector3(369.55  , -818.93 , 28.70 ), h10 = 181.19,     -- Digital Den back alley
     c11  = vector3(304.85  , -904.96 , 29.29 ), h11 = 71.09 ,     -- Los Santos Theatre
     c12  = vector3(2489.48 , 4962.31 , 44.0  ), h12 = 135.06,     -- Grapeseed Farm
-    c13  = vector3(3333.35 , 5159.93 , 17.60 ), h13 = 154.27,     -- Lighthouse
+    c13  = vector3(3333.35 , 5159.93 , 17.70 ), h13 = 154.27,     -- Lighthouse
     c14  = vector3(2702.14 , 3453.09 , 55.73 ), h14 = 149.64,     -- You Tool
-    c15  = vector3(-3051.47, 596.57  , 6.50  ), h15 = 287.22,     -- Ineseno Rd, supermarket
+    c15  = vector3(-3051.47, 596.57  , 6.60  ), h15 = 287.22,     -- Ineseno Rd, supermarket
     c16  = vector3(-866.31 , -1123.15, 7.20  ), h16 = 118.30,     -- Liquor Hole
     c17  = vector3(1995.38 , 3035.81 , 47.03 ), h17 = 148.03,     -- Yellow Jack Inn
     c18  = vector3(1244.2  , -3289.29, 5.0   ), h18 = 272.84,     -- Some warehose at the port
     c19  = vector3(1259.60 , -2568.98, 42.0  ), h19 = 292.40,     -- El Burro Heights ruined warehouse
-    c20  = vector3(1564.63 , -2162.92, 77.54 ), h20 = 356.89,     -- El Burro Heights another warehouse
+    c20  = vector3(1564.63 , -2162.92, 77.60 ), h20 = 356.89,     -- El Burro Heights another warehouse
     c21  = vector3(1686.03 , 6436.29 , 32.45 ), h21 = 150.64,     -- Highway Gas Station
     c22  = vector3(-676.49 , 5776.40 , 17.33 ), h22 = 64.76 ,     -- Bayview Lodge
     c23  = vector3(-105.52 , 6489.80 , 31.22 ), h23 = 234.07,     -- Blaine County Savings Bank
@@ -713,7 +765,7 @@ Locations = {
     c31  = vector3(1063.07 , 2656.37 , 39.55 ), h31 = 2.39  ,     -- Route 68 old cafe
     c32  = vector3(584.01  , 2788.04 , 42.19 ), h32 = 359.81,     -- Dollar Pills back
     c33  = vector3(185.26  , 2775.94 , 45.80 ), h33 = 282.55,     -- Some place in Harmony
-    c34  = vector3(-53.31  , 1949.29 , 190.0 ), h34 = 32.89 ,     -- Great Chaparral Settlement
+    c34  = vector3(-53.31  , 1949.29 , 190.10), h34 = 32.89 ,     -- Great Chaparral Settlement
     c35  = vector3(-1821.21, 809.29  , 138.81), h35 = 303.20      -- Limited LTD Gas Station
 }
 
@@ -734,21 +786,21 @@ Cars = {
 }
 
 Sell = {
-    s1  = vector3(-3055.85, 608.66  , 6.0 ), car1  = "MULE"    , -- Low item count
-    s2  = vector3(-2298.06, 433.19  , 173.85), car2  = "MULE"    ,
+    s1  = vector3(-3055.85, 608.66  , 6.0   ), car1  = "MULE"    , -- Low item count
+    s2  = vector3(-2298.06, 433.19  , 173.50), car2  = "MULE"    ,
     s3  = vector3(-441.91 , 6144.82 , 30.85 ), car3  = "MULE"    ,
-    s4  = vector3(2454.29 , -369.55 , 92.15), car4  = "MULE"    ,
-    s5  = vector3(3480.88 , 3668.41 , 33.10), car5  = "POUNDER2", -- Medium item count
-    s6  = vector3(2772.95 , 1404.07 , 24.0), car6  = "POUNDER2",
-    s7  = vector3(193.06  , 2787.34 , 45.0), car7  = "POUNDER2",
-    s8  = vector3(1027.39 , 2657.39 , 38.85), car8  = "POUNDER2",
+    s4  = vector3(2454.29 , -369.55 , 92.15 ), car4  = "MULE"    ,
+    s5  = vector3(3480.88 , 3668.41 , 33.10 ), car5  = "POUNDER2", -- Medium item count
+    s6  = vector3(2772.95 , 1404.07 , 24.0  ), car6  = "POUNDER2",
+    s7  = vector3(193.06  , 2787.34 , 45.0  ), car7  = "POUNDER2",
+    s8  = vector3(1027.39 , 2657.39 , 38.85 ), car8  = "POUNDER2",
     s9  = vector3(2007.52 , 4987.60 , 40.80 ), car9  = "TERBYTE" , -- High item count
-    s10 = vector3(-600.79 , 5301.42 , 69.55), car10 = "TERBYTE" ,
-    s11 = vector3(3809.66 , 4471.43 , 3.45 ), car11 = "TERBYTE" ,
+    s10 = vector3(-600.79 , 5301.42 , 69.55 ), car10 = "TERBYTE" ,
+    s11 = vector3(3809.66 , 4471.43 , 3.45  ), car11 = "TERBYTE" ,
     s12 = vector3(205.70  , 6384.08 , 30.75 ), car12 = "TERBYTE" ,
 
-    sp1 = vector3(48.72   , -2566.49, 6.0  ), h1    = 359.0     ,
-    sp2 = vector3(85.79   , -2587.42, 6.0  ), h2    = 268.17    ,
+    sp1 = vector3(48.72   , -2566.49, 6.0   ), h1    = 359.0     ,
+    sp2 = vector3(85.79   , -2587.42, 6.0   ), h2    = 268.17    ,
 
     method1 = 1, -- not being used right now
     method2 = 2,

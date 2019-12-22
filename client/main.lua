@@ -217,7 +217,7 @@ Citizen.CreateThread(function() -- Player and vehicle status check
                 Citizen.Wait(6000)
                 draw = false
             end
-            if vehname == needcar and (enghealth <= 150) then -- I haven't got time to test this, sorry...
+            if vehname == needcar and (enghealth <= 150) then
                 Delstart = false
                 drawmarker = false
                 whstart = false
@@ -459,7 +459,7 @@ Citizen.CreateThread(function() -- Main action
                 local needcar = GetDisplayNameFromVehicleModel(GetEntityModel(Missioncar))
 
                 if vehname == needcar and vehicle then
-                    BringVehicleToHalt(currentveh, 3.5, 1, false)
+                    BringVehicleToHalt(currentveh, 2.5, 1, false)
                     Citizen.Wait(10)
                     DoScreenFadeOut(500)
                     Citizen.Wait(500)
@@ -493,7 +493,7 @@ Citizen.CreateThread(function() -- Main action
 
             if vehname == needcar then
                 if (GetDistanceBetweenCoords(GetEntityCoords(player), Currentpos, true) <= 2.5) then
-                    BringVehicleToHalt(playercar, 3.5, 1, false)
+                    BringVehicleToHalt(playercar, 2.5, 1, false)
                     Citizen.Wait(10)
                     DoScreenFadeOut(500)
                     Citizen.Wait(500)
@@ -542,12 +542,13 @@ Citizen.CreateThread(function() -- NPC actions // yay it works now!
                         SpawnEnemyNPC(Currentloc.x, Currentloc.y, Currentloc.x, player)
                     end
                 else
-                    ClearPedTasksImmediately(Driver)
-                    SetPedAlertness(Driver, 0)
-                    SetPedCombatAttributes(Driver, 46, false)
+                    ClearPedTasksImmediately(Driver)            ClearPedTasksImmediately(Passenger)
+                    SetPedAlertness(Driver, 0)                  SetPedAlertness(Passenger, 0)
+                    SetPedCombatAttributes(Driver, 46, false)   SetPedCombatAttributes(Passenger, 46, false)
                     RemoveBlip(Enemyblip)
+                    RemoveRelationshipGroup(Group)
                     Citizen.Wait(15000)
-                    DeleteEntity(Driver)
+                    DeleteEntity(Driver)                        DeleteEntity(Driver)
                     DeleteEntity(Enemyveh)
                 end
                 Citizen.Wait(1)
@@ -568,12 +569,12 @@ Citizen.CreateThread(function()
             end
             if not NPCstart then
                 if not IsEntityDead(Driver) and DoesEntityExist(Driver) then
-                    ClearPedTasksImmediately(Driver)
-                    SetPedAlertness(Driver, 0)
-                    SetPedCombatAttributes(Driver, 46, false)
+                    ClearPedTasksImmediately(Driver)            ClearPedTasksImmediately(Passenger)
+                    SetPedAlertness(Driver, 0)                  SetPedAlertness(Passenger, 0)
+                    SetPedCombatAttributes(Driver, 46, false)   SetPedCombatAttributes(Passenger, 46, false)
                     RemoveBlip(Enemyblip)
                     Citizen.Wait(15000)
-                    DeleteEntity(Driver)
+                    DeleteEntity(Driver)                        DeleteEntity(Passenger)
                     DeleteEntity(Enemyveh)
                 end
             end
@@ -754,7 +755,7 @@ Locations = {
     c20  = vector3(1564.63 , -2162.92, 77.60 ), h20 = 356.89,     -- El Burro Heights another warehouse
     c21  = vector3(1686.03 , 6436.29 , 32.45 ), h21 = 150.64,     -- Highway Gas Station
     c22  = vector3(-676.49 , 5776.40 , 17.33 ), h22 = 64.76 ,     -- Bayview Lodge
-    c23  = vector3(-105.52 , 6489.80 , 31.22 ), h23 = 234.07,     -- Blaine County Savings Bank
+    c23  = vector3(-105.52 , 6489.80 , 31.32 ), h23 = 234.07,     -- Blaine County Savings Bank
     c24  = vector3(130.33  , 6662.76 , 31.71 ), h24 = 133.51,     -- Blaine County Big Gas Station
     c25  = vector3(82.73   , 3750.16 , 39.90 ), h25 = 172.25,     -- Stab City
     c26  = vector3(-1131.74, 2694.28 , 18.8  ), h26 = 136.75,     -- The Paint Shop
@@ -788,7 +789,7 @@ Cars = {
 Sell = {
     s1  = vector3(-3055.85, 608.66  , 6.0   ), car1  = "MULE"    , -- Low item count
     s2  = vector3(-2298.06, 433.19  , 173.50), car2  = "MULE"    ,
-    s3  = vector3(-441.91 , 6144.82 , 30.85 ), car3  = "MULE"    ,
+    s3  = vector3(-441.91 , 6144.82 , 30.55 ), car3  = "MULE"    ,
     s4  = vector3(2454.29 , -369.55 , 92.15 ), car4  = "MULE"    ,
     s5  = vector3(3480.88 , 3668.41 , 33.10 ), car5  = "POUNDER2", -- Medium item count
     s6  = vector3(2772.95 , 1404.07 , 24.0  ), car6  = "POUNDER2",

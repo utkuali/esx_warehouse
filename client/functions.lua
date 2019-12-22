@@ -27,18 +27,18 @@ function OpenLaptop() -- Laptop Menu
     }}, function(data, menu)
         if data.current.value == "buy_menu" then
             local elements = {
-                {label = _U("b_s1_1")..tostring(Config.Price.s1_1).."$", value = "s1_1"},
-                {label = _U("b_s1_2")..tostring(Config.Price.s1_2).."$", value = "s1_2"},
-                {label = _U("b_s2_1")..tostring(Config.Price.s2_1).."$", value = "s2_1"},
-                {label = _U("b_s2_2")..tostring(Config.Price.s2_2).."$", value = "s2_2"},
-                {label = _U("b_s3_1")..tostring(Config.Price.s3_1).."$", value = "s3_1"},
-                {label = _U("b_s3_2")..tostring(Config.Price.s3_2).."$", value = "s3_2"},
-                {label = _U("b_s4_1")..tostring(Config.Price.s4_1).."$", value = "s4_1"},
-                {label = _U("b_s4_2")..tostring(Config.Price.s4_2).."$", value = "s4_2"},
-                {label = _U("b_s5_1")..tostring(Config.Price.s5_1).."$", value = "s5_1"},
-                {label = _U("b_s5_2")..tostring(Config.Price.s5_2).."$", value = "s5_2"},
-                {label = _U("b_s6_1")..tostring(Config.Price.s6_1).."$", value = "s6_1"},
-                {label = _U("b_s6_2")..tostring(Config.Price.s6_2).."$", value = "s6_2"},
+                {label = _U("b_s1_1")..tostring(ESX.Math.GroupDigits(Config.Price.s1_1)).."$", value = "s1_1"},
+                {label = _U("b_s1_2")..tostring(ESX.Math.GroupDigits(Config.Price.s1_2)).."$", value = "s1_2"},
+                {label = _U("b_s2_1")..tostring(ESX.Math.GroupDigits(Config.Price.s2_1)).."$", value = "s2_1"},
+                {label = _U("b_s2_2")..tostring(ESX.Math.GroupDigits(Config.Price.s2_2)).."$", value = "s2_2"},
+                {label = _U("b_s3_1")..tostring(ESX.Math.GroupDigits(Config.Price.s3_1)).."$", value = "s3_1"},
+                {label = _U("b_s3_2")..tostring(ESX.Math.GroupDigits(Config.Price.s3_2)).."$", value = "s3_2"},
+                {label = _U("b_s4_1")..tostring(ESX.Math.GroupDigits(Config.Price.s4_1)).."$", value = "s4_1"},
+                {label = _U("b_s4_2")..tostring(ESX.Math.GroupDigits(Config.Price.s4_2)).."$", value = "s4_2"},
+                {label = _U("b_s5_1")..tostring(ESX.Math.GroupDigits(Config.Price.s5_1)).."$", value = "s5_1"},
+                {label = _U("b_s5_2")..tostring(ESX.Math.GroupDigits(Config.Price.s5_2)).."$", value = "s5_2"},
+                {label = _U("b_s6_1")..tostring(ESX.Math.GroupDigits(Config.Price.s6_1)).."$", value = "s6_1"},
+                {label = _U("b_s6_2")..tostring(ESX.Math.GroupDigits(Config.Price.s6_2)).."$", value = "s6_2"},
             }
 
             ESX.UI.Menu.Open("default", GetCurrentResourceName(), "buy_menu", {
@@ -154,14 +154,14 @@ function OpenLaptop() -- Laptop Menu
                 title = _U("sell_menu"),
                 align = "top-left",
                 elements = {
-                    {label = _U("cur_price")..tostring(worth).."$", value = "info"},
+                    {label = _U("cur_price")..tostring(ESX.Math.GroupDigits(worth)).."$", value = "info"},
                     {label = _U("sell"), value = "sell"}
                 }
             }, function(data2, menu2)
                 local action = data2.current.value
 
                 if action == "info" then
-                    exports['mythic_notify']:SendAlert("error", _U("info_s")..tostring(bonus).."$")
+                    exports['mythic_notify']:SendAlert("error", _U("info_s")..tostring(ESX.Math.GroupDigits(bonus)).."$")
                 elseif action == "sell" then
                     if count >= 1 then
                         TriggerEvent("utku_wh:sell", count, worth)
@@ -191,98 +191,104 @@ function SpawnEnemyNPC(x, y, z, target) -- Seems to work just fine // problem is
 
         ClearAreaOfVehicles(GetEntityCoords(Enemyveh), 200, false, false, false, false, false);
         SetVehicleOnGroundProperly(Enemyveh)
+        oke, Group = AddRelationshipGroup("Enemies")
         Driver = CreatePedInsideVehicle(Enemyveh, 12, GetHashKey("g_m_y_mexgoon_03"), -1, true, false)
-        --Passenger = CreatePedInsideVehicle(Enemyveh, 12, GetHashKey("g_m_y_mexgoon_03"), 0, true, false)
+        Passenger = CreatePedInsideVehicle(Enemyveh, 12, GetHashKey("g_m_y_mexgoon_03"), 0, true, false)
         Enemyblip = AddBlipForEntity(Driver)
         SetBlipAsFriendly(Enemyblip, false)
         SetBlipFlashes(Enemyblip, true)
         SetBlipSprite(Enemyblip, 270)
         SetBlipColour(Enemyblip, 1)
 
-        GiveWeaponToPed(Driver, "WEAPON_MICROSMG", 400, false, true)    --GiveWeaponToPed(Passenger, "WEAPON_MICROSMG", 400, false, true)
-        SetPedCombatAttributes(Driver, 1, true)                         --SetPedCombatAttributes(Passenger, 1, true)
-        SetPedCombatAttributes(Driver, 2, true)                         --SetPedCombatAttributes(Passenger, 2, true)
-        SetPedCombatAttributes(Driver, 5, true)	                        --SetPedCombatAttributes(Passenger, 5, true)
-        SetPedCombatAttributes(Driver, 16, true)                        --SetPedCombatAttributes(Passenger, 16, true)
-        SetPedCombatAttributes(Driver, 26, true)                        --SetPedCombatAttributes(Passenger, 26, true)
-        SetPedCombatAttributes(Driver, 46, true)                        --SetPedCombatAttributes(Passenger, 46, true)
-        SetPedCombatAttributes(Driver, 52, true)
-        SetPedFleeAttributes(Driver, 0, 0)                              --SetPedFleeAttributes(Passenger, 0, 0)
-        SetPedPathAvoidFire(Driver, 1)                                  --SetPedPathAvoidFire(Passenger, 1)
-        SetPedAlertness(Driver,3)                                       --SetPedAlertness(Passenger,3)
-        SetPedFiringPattern(Driver, 0xC6EE6B4C)                         --SetPedFiringPattern(Passenger, 0xC6EE6B4C)
-        SetPedArmour(Driver, 100)                                       --SetPedArmour(Passenger, 100)
-        TaskCombatPed(Driver, target, 0, 16)
-        TaskVehicleChase(Driver, target)
+        SetPedRelationshipGroupHash(Driver, Group)                      SetPedRelationshipGroupHash(Passenger, Group) -- Passenger now works, but he is kinda stupid :D
+        SetEntityCanBeDamagedByRelationshipGroup(Driver, false, Group)  SetEntityCanBeDamagedByRelationshipGroup(Passenger, false, Group)
+        GiveWeaponToPed(Driver, "WEAPON_MICROSMG", 400, false, true)    GiveWeaponToPed(Passenger, "WEAPON_MICROSMG", 400, false, true)
+        SetPedCombatAttributes(Driver, 1, true)                         SetPedCombatAttributes(Passenger, 1, true)
+        SetPedCombatAttributes(Driver, 2, true)                         SetPedCombatAttributes(Passenger, 2, true)
+        SetPedCombatAttributes(Driver, 5, true)	                        SetPedCombatAttributes(Passenger, 5, true)
+        SetPedCombatAttributes(Driver, 16, true)                        SetPedCombatAttributes(Passenger, 16, true)
+        SetPedCombatAttributes(Driver, 26, true)                        SetPedCombatAttributes(Passenger, 26, true)
+        SetPedCombatAttributes(Driver, 46, true)                        SetPedCombatAttributes(Passenger, 46, true)
+        SetPedCombatAttributes(Driver, 52, true)                        SetPedCombatAttributes(Passenger, 52, true)
+        SetPedFleeAttributes(Driver, 0, 0)                              SetPedFleeAttributes(Passenger, 0, 0)
+        SetPedPathAvoidFire(Driver, 1)                                  SetPedPathAvoidFire(Passenger, 1)
+        SetPedAlertness(Driver,3)                                       SetPedAlertness(Passenger,3)
+        SetPedFiringPattern(Driver, 0xC6EE6B4C)                         SetPedFiringPattern(Passenger, 0xC6EE6B4C)
+        SetPedArmour(Driver, 100)                                       SetPedArmour(Passenger, 100)
+        TaskCombatPed(Driver, target, 0, 16)                            TaskCombatPed(Driver, target, 0, 16)
+        TaskVehicleChase(Driver, target)                                SetPedVehicleForcedSeatUsage(Passenger, Enemyveh, 0, 1)
+        SetTaskVehicleChaseBehaviorFlag(Driver, 262144, true)
+        SetDriverRacingModifier(Driver, 1.0)
+        SetDriverAbility(Driver, 1.0)
         --SetPedAsEnemy(Driver, true)                                     --SetPedAsEnemy(Passenger, true)
-        SetPedDropsWeaponsWhenDead(Driver, false)                       --SetPedDropsWeaponsWhenDead(Passenger, false)
+        SetPedDropsWeaponsWhenDead(Driver, false)                       SetPedDropsWeaponsWhenDead(Passenger, false)
     end
 end
 
 function GetTotalWorth()
     local count = 0
     local worth = 0
-    for i=1, #Warehouse, 1 do
+    for i = 1, #Warehouse, 1 do
         if Warehouse[i].empty == false then
             if Warehouse[i].slot == "s1_1" then
                 count = count + 2
-                worth = worth + Config.Price.s1_1 * 2
+                worth = worth + Config.Price.s1_1 * 1.5 -- also lowered this values a bit
             end
             if Warehouse[i].slot == "s1_2" then
                 count = count + 2
-                worth = worth + Config.Price.s1_2 * 2
+                worth = worth + Config.Price.s1_2 * 1.5
             end
             if Warehouse[i].slot == "s2_1" then
                 count = count + 2
-                worth = worth + Config.Price.s2_1 * 2
+                worth = worth + Config.Price.s2_1 * 1.5
             end
             if Warehouse[i].slot == "s2_2" then
                 count = count + 2
-                worth = worth + Config.Price.s2_2 * 2
+                worth = worth + Config.Price.s2_2 * 1.5
             end
             if Warehouse[i].slot == "s3_1" then
                 count = count + 2
-                worth = worth + Config.Price.s3_1 * 2
+                worth = worth + Config.Price.s3_1 * 1.5
             end
             if Warehouse[i].slot == "s3_2" then
                 count = count + 2
-                worth = worth + Config.Price.s3_2 * 2
+                worth = worth + Config.Price.s3_2 * 1.5
             end
             if Warehouse[i].slot == "s4_1" then
                 count = count + 2
-                worth = worth + Config.Price.s4_1 * 2
+                worth = worth + Config.Price.s4_1 * 1.5
             end
             if Warehouse[i].slot == "s4_2" then
                 count = count + 2
-                worth = worth + Config.Price.s4_2 * 2
+                worth = worth + Config.Price.s4_2 * 1.5
             end
             if Warehouse[i].slot == "s5_1" then
                 count = count + 2
-                worth = worth + Config.Price.s5_1 * 2
+                worth = worth + Config.Price.s5_1 * 1.5
             end
             if Warehouse[i].slot == "s5_2" then
                 count = count + 2
-                worth = worth + Config.Price.s5_2 * 2
+                worth = worth + Config.Price.s5_2 * 1.5
             end
             if Warehouse[i].slot == "s6_1" then
                 count = count + 2
-                worth = worth + Config.Price.s6_1 * 2
+                worth = worth + Config.Price.s6_1 * 1.5
             end
             if Warehouse[i].slot == "s6_2" then
                 count = count + 2
-                worth = worth + Config.Price.s6_2 * 2
+                worth = worth + Config.Price.s6_2 * 1.5
             end
         end
     end
     if count > 3 then
-        return math.floor(worth + ((worth * count) / 10)), math.floor((worth * count) / 10), count/2
+        return math.floor(worth + ((worth * (count/1.2)) / 10)), math.floor((worth * (count/1.2)) / 10), count/2 -- Should make prices a bit lower and reasonable
     else
         return worth, 0 , count/2
     end
 end
 
 function GetCurrentInfo()
-    local random    = math.random(1,36)
+    local random    = math.random(1, 36)
     local randomcar = math.random(1, 13)
 
     if random == 1 then

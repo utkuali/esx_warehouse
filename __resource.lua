@@ -5,6 +5,7 @@ server_scripts {
     "@es_extended/locale.lua",
     "config.lua",
     "locales/en.lua",
+    "locales/de.lua",
     "locales/tr.lua",
     "server/main.lua"
 }
@@ -13,6 +14,7 @@ client_scripts {
     "@es_extended/locale.lua",
     "config.lua",
     "locales/en.lua",
+    "locales/de.lua",
     "locales/tr.lua",
     "client/main.lua",
     "client/functions.lua"

@@ -158,7 +158,7 @@ Citizen.CreateThread(function() -- Countdown
             end
             if Timer == 10000 then
                 PlaySoundFrontend(-1, "10s", "MP_MISSION_COUNTDOWN_SOUNDSET", 0)
-                exports['mythic_notify']:SendAlert('inform', _U("10sec"), 900, { ['background-color'] = '#ffffff', ['color'] = '#000000' })
+                exports['mythic_notify']:SendAlert('inform', _U("10sec"), 1000, { ['background-color'] = '#009ff4', ['color'] = '#000000' })
                 Citizen.Wait(2000)
             end
             if Timer == 0 then
@@ -207,6 +207,7 @@ Citizen.CreateThread(function() -- Player and vehicle status check
                 Starttimer = false
                 RemoveBlip(currentblip)
                 RemoveBlip(Enemyblip)
+                RemoveBlip(vehblip)
                 currentblip = nil
                 currentslot = nil
                 PlaySoundFrontend(-1, "Bed", "WastedSounds", 0)
@@ -227,6 +228,7 @@ Citizen.CreateThread(function() -- Player and vehicle status check
                 Starttimer = false
                 RemoveBlip(currentblip)
                 RemoveBlip(Enemyblip)
+                RemoveBlip(vehblip)
                 currentblip = nil
                 currentslot = nil
                 PlaySoundFrontend(-1, "Bed", "WastedSounds", 0)

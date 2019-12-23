@@ -181,7 +181,7 @@ function OpenLaptop() -- Laptop Menu
     end)
 end
 
-function SpawnEnemyNPC(x, y, z, target) -- Seems to work just fine // problem is when I add a passenger, they attack eachother too, I think I need to make a relationship thing here
+function SpawnEnemyNPC(x, y, z, target) -- Works decent but not exactly how I want, still working no improving it
     local done, location, heading = GetClosestVehicleNodeWithHeading(x + math.random(-100, 100), y + math.random(-100, 100), z, 1, 3, 0)
 
     RequestModel(0x964D12DC)

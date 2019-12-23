@@ -1,6 +1,6 @@
 Config = {}
 
-Config.Locale = "en"
+Config.Locale = "tr"
 
 Config.rndfail = math.random(1, 500) -- Percantage of purchase fail = 1/500 (money always removed)
 Config.deltime = 900000 -- 15min

@@ -27,3 +27,5 @@ ESX: https://github.com/ESX-Org/es_extended
 mythicnotify: https://github.com/mythicrp/mythic_notify
 
 progressBars: https://github.com/torpidity/progressBars/tree/1.0
+
+you also need to enable load ipls, bob76_ipl is enough

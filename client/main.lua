@@ -1,7 +1,7 @@
 ESX = nil
 PlayerData = {}
 local whstart, pickup, drawmarker, shouldlock, draw, NPCstart, Delstart, Sellstart = false, false, false, false, false, false, false, false
-local currentslot, currentblip, vehblip, C_heading, header, text, markerloc, Missioncar
+local currentslot, currentblip, vehblip, C_heading, header, text, markerloc, Missioncar, Busy
 local locked = true
 
 Citizen.CreateThread(function()
@@ -41,6 +41,9 @@ AddEventHandler("utku_wh:upVar", function(var, status)
     if var == "shouldlock" then
         shouldlock = status
     end
+    if var == "busy" then
+        Busy = status
+    end
 end)
 
 Warehouse = {
@@ -68,6 +71,8 @@ AddEventHandler("utku_wh:start", function(action)
     Citizen.Wait(500)
     Delstart = true
     Starttimer = true
+    Busy = true
+    TriggerServerEvent("utku_wh:upVar_s", "busy", true)
     exports['mythic_notify']:SendAlert("success", _U("pickup_s"))
     Citizen.Wait(500)
     exports['mythic_notify']:SendAlert("success", _U("15min"))
@@ -81,6 +86,8 @@ AddEventHandler("utku_wh:sell", function(count, amount)
     Citizen.Wait(1000)
     Sellstart = true
     Starttimer = true
+    Busy = true
+    TriggerServerEvent("utku_wh:upVar_s", "busy", true)
     for i = 1, #Warehouse, 1 do -- should work now !
         Warehouse[i].empty = true
         Warehouse[i].created = false
@@ -205,6 +212,8 @@ Citizen.CreateThread(function() -- Player and vehicle status check
                 Sellstart = false
                 NPCstart = false
                 Starttimer = false
+                Busy = false
+                TriggerServerEvent("utku_wh:upVar_s", "busy", false)
                 RemoveBlip(currentblip)
                 RemoveBlip(Enemyblip)
                 RemoveBlip(vehblip)
@@ -226,6 +235,8 @@ Citizen.CreateThread(function() -- Player and vehicle status check
                 Sellstart = false
                 NPCstart = false
                 Starttimer = false
+                Busy = false
+                TriggerServerEvent("utku_wh:upVar_s", "busy", false)
                 RemoveBlip(currentblip)
                 RemoveBlip(Enemyblip)
                 RemoveBlip(vehblip)
@@ -467,6 +478,8 @@ Citizen.CreateThread(function() -- Main action
                     Citizen.Wait(500)
                     drawmarker = false
                     whstart = false
+                    Busy = false
+                    TriggerServerEvent("utku_wh:upVar_s", "busy", false)
                     Citizen.Wait(10)
                     RemoveBlip(currentblip)
                     currentblip = nil
@@ -503,6 +516,8 @@ Citizen.CreateThread(function() -- Main action
                     Sellstart = false
                     NPCstart = false
                     Starttimer = false
+                    Busy = false
+                    TriggerServerEvent("utku_wh:upVar_s", "busy", false)
                     Citizen.Wait(10)
                     RemoveBlip(currentblip)
                     RemoveBlip(Enemyblip)
@@ -652,7 +667,7 @@ Citizen.CreateThread(function() -- Wooow another door , I should organize them
         local dst = GetDistanceBetweenCoords(pedcoord, laptoploc, true)
 
         if IsControlJustReleased(0, 38) and dst <= 1.5 then
-            if not Delstart then
+            if not Delstart or not Sellstart then
                 TriggerServerEvent("utku_wh:checkKey", 3)
             else
                 exports['mythic_notify']:SendAlert("error", _U("alreadydel"))
@@ -686,19 +701,23 @@ end)
 
 RegisterNetEvent("utku_wh:openLaptop")
 AddEventHandler("utku_wh:openLaptop", function()
-    local ped = PlayerPedId()
-    RequestAnimDict("anim@amb@warehouse@laptop@")
-    while not HasAnimDictLoaded("anim@amb@warehouse@laptop@") do
+    if not Busy then
+        local ped = PlayerPedId()
         RequestAnimDict("anim@amb@warehouse@laptop@")
-        Citizen.Wait(10)
+        while not HasAnimDictLoaded("anim@amb@warehouse@laptop@") do
+            RequestAnimDict("anim@amb@warehouse@laptop@")
+            Citizen.Wait(10)
+        end
+        SetEntityCoords(ped, 1088.45, -3101.28, -40.0, 1, 0, 0, 1)
+        SetEntityHeading(ped, 96.45)
+        TaskPlayAnim(ped, "anim@amb@warehouse@laptop@", "enter", 8.0, 8.0, 0.1, 0, 1, false, false, false)
+        Citizen.Wait(600)
+        TaskPlayAnim(ped, "anim@amb@warehouse@laptop@", "idle_a", 8.0, 8.0, -1, 1, 1, false, false, false)
+        Citizen.Wait(1000)
+        OpenLaptop()
+    else
+        exports['mythic_notify']:SendAlert("error", _U("busy"))
     end
-    SetEntityCoords(ped, 1088.45, -3101.28, -40.0, 1, 0, 0, 1)
-    SetEntityHeading(ped, 96.45)
-    TaskPlayAnim(ped, "anim@amb@warehouse@laptop@", "enter", 8.0, 8.0, 0.1, 0, 1, false, false, false)
-    Citizen.Wait(600)
-    TaskPlayAnim(ped, "anim@amb@warehouse@laptop@", "idle_a", 8.0, 8.0, -1, 1, 1, false, false, false)
-    Citizen.Wait(1000)
-    OpenLaptop()
 end)
 
 RegisterNetEvent("utku_wh:tpWH") --TP to warehouse
@@ -736,11 +755,11 @@ end)
 Locations = {
     c1   = vector3(-252.72 , 6347.42 , 31.45 ), h1  = 229.67,     -- Paletobay Care Center
     c2   = vector3(3596.74 , 3661.80 , 32.85 ), h2  = 75.36 ,     -- Humane Lab Garage 1
-    c3   = vector3(324.64  , -1474.52, 29.66 ), h3  = 232.44,     -- Center Hospital
+    c3   = vector3(324.64  , -1474.52, 29.76 ), h3  = 232.44,     -- Center Hospital
     c3_2 = vector3(3597.74 , 3669.79 , 33.0  ), --same heading    -- Humane Lab Garage 2
     c4   = vector3(1356.89 , 3617.91 , 34.0  ), h4  = 289.05,     -- Trevor Lab
     c5   = vector3(165.68  , 2284.27 , 93.51 ), h5  = 251.22,     -- Online Meth Lab
-    c6   = vector3(-575.85 , -279.66 , 35.09 ), h6  = 211.72,     -- Vangelico
+    c6   = vector3(-575.85 , -279.66 , 35.15 ), h6  = 211.72,     -- Vangelico
     c7   = vector3(-3158.51, 1129.05 , 20.0  ), h7  = 340.76,     -- Chumhas-Barbareno Rd., some store
     c8   = vector3(1075.92 , -1949.32, 31.10 ), h8  = 143.46,     -- Gem Factory
     c9   = vector3(-3166.73, 1032.56 , 20.0  ), h9  = 155.60,     -- Chumhas-Barbareno Rd., some electronics store

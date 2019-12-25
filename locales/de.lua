@@ -23,6 +23,7 @@ Locales["de"] = {
     ["empty"] = "Sie haben nichts zu verkaufen.",
     ["pickup_s"] = "Gehen Sie zu dem auf Ihrem GPS markierten Abholort!",
     ["pickup_f"] = "Bei der Lieferung ist ein Problem aufgetreten, Sie haben Ihr Geld verloren!",
+    ["busy"] = "",
     ["main_title"] = "Lager Menü",
     ["buy_menu"] = "Kaufmenü",
     ["sell_menu"] = "Verkaufsmenü",

@@ -52,14 +52,16 @@ AddEventHandler("utku_wh:checkKey", function(thing)
     local xPlayers = ESX.GetPlayers()
     local xPlayer = ESX.GetPlayerFromId(_source)
     local key = xPlayer.getInventoryItem("warehouse_key")["count"]
+    local card = xPlayer.getInventoryItem("access_key")["count"]
+
     if thing == 1 then
         if key >= 1 then
-            for i=1, #xPlayers, 1 do
+            for i = 1, #xPlayers, 1 do
                 TriggerClientEvent("utku_wh:upVar", xPlayers[i], "shouldlock", true)
                 TriggerClientEvent("utku_wh:upVar", xPlayers[i], "locked", true)
             end
         else
-            for i=1, #xPlayers, 1 do
+            for i = 1, #xPlayers, 1 do
                 TriggerClientEvent("utku_wh:upVar", xPlayers[i], "shouldlock", false)
             end
         end
@@ -73,7 +75,7 @@ AddEventHandler("utku_wh:checkKey", function(thing)
             TriggerClientEvent("utku_wh:tpWH", _source, false)
         end
     elseif thing == 3 then
-        if key >= 1 then
+        if card >= 1 then
             TriggerClientEvent("utku_wh:openLaptop", _source)
         else
             TriggerClientEvent('mythic_notify:client:SendAlert', _source, {type = 'inform', text = _("no_access"), length = 3000, style = { ['background-color'] = '#FF0000', ['color'] = '#000000' } })
@@ -84,7 +86,7 @@ end)
 RegisterServerEvent("utku_wh:upVar_s")
 AddEventHandler("utku_wh:upVar_s", function(var, status)
     local xPlayers = ESX.GetPlayers()
-    for i=1, #xPlayers, 1 do
+    for i = 1, #xPlayers, 1 do
         TriggerClientEvent("utku_wh:upVar", xPlayers[i], var, status)
     end
 end)

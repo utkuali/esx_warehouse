@@ -23,6 +23,7 @@ Locales["pl"] = {
     ["empty"] = "",
     ["pickup_s"] = "",
     ["pickup_f"] = "",
+    ["busy"] = "",
     ["main_title"] = "",
     ["buy_menu"] = "",
     ["sell_menu"] = "",

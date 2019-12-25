@@ -1,12 +1,15 @@
 Config = {}
 
-Config.Locale = "tr"
+Config.Locale = "en"
 
 Config.rndfail = math.random(1, 500) -- Percantage of purchase fail = 1/500 (money always removed)
 Config.deltime = 900000 -- 15min
 Config.selltime = 900000 -- 15 min
 Config.enablenpc = true -- NPC enemies during sell
 Config.blackmoney = false -- set true if you want to pay with blackmoney
+Config.itemmultiplier = 1.5 -- set this for make items single sell price
+Config.bonus = 1.2 -- Higher values makes bonus sell price lower // DO NOT SET LOWER THAN 1 !!!
+
 
 Config.Locations = {
     depokapi = vector3(67.17  , -2570.20, 5.0   ),

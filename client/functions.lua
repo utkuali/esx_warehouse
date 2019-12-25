@@ -232,56 +232,56 @@ function GetTotalWorth()
         if Warehouse[i].empty == false then
             if Warehouse[i].slot == "s1_1" then
                 count = count + 2
-                worth = worth + Config.Price.s1_1 * 1.5 -- also lowered this values a bit
+                worth = worth + Config.Price.s1_1 * Config.itemmultiplier -- also lowered this values a bit
             end
             if Warehouse[i].slot == "s1_2" then
                 count = count + 2
-                worth = worth + Config.Price.s1_2 * 1.5
+                worth = worth + Config.Price.s1_2 * Config.itemmultiplier
             end
             if Warehouse[i].slot == "s2_1" then
                 count = count + 2
-                worth = worth + Config.Price.s2_1 * 1.5
+                worth = worth + Config.Price.s2_1 * Config.itemmultiplier
             end
             if Warehouse[i].slot == "s2_2" then
                 count = count + 2
-                worth = worth + Config.Price.s2_2 * 1.5
+                worth = worth + Config.Price.s2_2 * Config.itemmultiplier
             end
             if Warehouse[i].slot == "s3_1" then
                 count = count + 2
-                worth = worth + Config.Price.s3_1 * 1.5
+                worth = worth + Config.Price.s3_1 * Config.itemmultiplier
             end
             if Warehouse[i].slot == "s3_2" then
                 count = count + 2
-                worth = worth + Config.Price.s3_2 * 1.5
+                worth = worth + Config.Price.s3_2 * Config.itemmultiplier
             end
             if Warehouse[i].slot == "s4_1" then
                 count = count + 2
-                worth = worth + Config.Price.s4_1 * 1.5
+                worth = worth + Config.Price.s4_1 * Config.itemmultiplier
             end
             if Warehouse[i].slot == "s4_2" then
                 count = count + 2
-                worth = worth + Config.Price.s4_2 * 1.5
+                worth = worth + Config.Price.s4_2 * Config.itemmultiplier
             end
             if Warehouse[i].slot == "s5_1" then
                 count = count + 2
-                worth = worth + Config.Price.s5_1 * 1.5
+                worth = worth + Config.Price.s5_1 * Config.itemmultiplier
             end
             if Warehouse[i].slot == "s5_2" then
                 count = count + 2
-                worth = worth + Config.Price.s5_2 * 1.5
+                worth = worth + Config.Price.s5_2 * Config.itemmultiplier
             end
             if Warehouse[i].slot == "s6_1" then
                 count = count + 2
-                worth = worth + Config.Price.s6_1 * 1.5
+                worth = worth + Config.Price.s6_1 * Config.itemmultiplier
             end
             if Warehouse[i].slot == "s6_2" then
                 count = count + 2
-                worth = worth + Config.Price.s6_2 * 1.5
+                worth = worth + Config.Price.s6_2 * Config.itemmultiplier
             end
         end
     end
     if count > 3 then
-        return math.floor(worth + ((worth * (count/1.2)) / 10)), math.floor((worth * (count/1.2)) / 10), count/2 -- Should make prices a bit lower and reasonable
+        return math.floor(worth + ((worth * (count/Config.bonus)) / 10)), math.floor((worth * (count/Config.bonus2)) / 10), count/2 -- Should make prices a bit lower and reasonable
     else
         return worth, 0 , count/2
     end

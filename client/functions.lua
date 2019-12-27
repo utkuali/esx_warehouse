@@ -281,7 +281,7 @@ function GetTotalWorth()
         end
     end
     if count > 3 then
-        return math.floor(worth + ((worth * (count/Config.bonus)) / 10)), math.floor((worth * (count/Config.bonus2)) / 10), count/2 -- Should make prices a bit lower and reasonable
+        return math.floor(worth + ((worth * (count/Config.bonus)) / 10)), math.floor((worth * (count/Config.bonus)) / 10), count/2 -- Should make prices a bit lower and reasonable
     else
         return worth, 0 , count/2
     end

@@ -1,6 +1,8 @@
 # esx_warehouse
 Detailed smuggling job inspired by GTA: Online by utku
 
+Buying: https://streamable.com/o1qxb
+Selling: https://streamable.com/ziz0f
 
 Sharing (even if you edit it slightly or heavily) without my permission is strictly prohibited at this point.
 

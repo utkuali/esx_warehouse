@@ -7,6 +7,8 @@ Selling: https://streamable.com/ziz0f
 Sharing (even if you edit it slightly or heavily) without my permission is strictly prohibited at this point.
 
 
+My Patreon for more of everything: https://www.patreon.com/utkforeva
+
 I have looked at some other scripts to write SQL side of the resource. And of course, many other resources to figure out some natives that are not well documented, if you see or feel anything you write is used here tell me, please.
 
 
